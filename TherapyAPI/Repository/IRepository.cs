@@ -9,6 +9,5 @@ namespace TherapyAPI.Repository {
         void Create (T entity);
         void Update (T entity);
         void Delete (Guid Id);
-        Task Save ();
     }
 }

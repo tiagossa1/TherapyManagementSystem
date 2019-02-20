@@ -19,19 +19,18 @@ namespace TherapyAPI.Repository {
         }
         public void Create (T entity) {
             this.repositoryContext.Set<T> ().Add (entity);
+            this.repositoryContext.SaveChangesAsync();
         }
 
         public void Delete (Guid Id) {
             T entity = this.repositoryContext.Set<T> ().Find (Id);
             this.repositoryContext.Set<T> ().Remove (entity);
+            this.repositoryContext.SaveChangesAsync();
         }
 
         public void Update (T entity) {
             this.repositoryContext.Set<T> ().Update (entity);
-        }
-
-        public async Task Save () {
-            await this.repositoryContext.SaveChangesAsync ();
+            this.repositoryContext.SaveChangesAsync();
         }
     }
 }
