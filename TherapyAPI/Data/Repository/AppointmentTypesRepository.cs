@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using TherapyAPI.Entities;
 using TherapyAPI.Models;
 using TherapyAPI.Repository;
@@ -13,7 +14,8 @@ namespace TherapyAPI.Data.Repository
 
         public bool GetByName(string name)
         {
-            if(repositoryContext.AppointmentTypes.Find(name) != null)
+            var searchResult = repositoryContext.AppointmentTypes.SingleOrDefault(x => x.Name == name);
+            if(searchResult != null)
             {
                 return true;
             }

@@ -23,7 +23,8 @@ namespace TherapyAPI.Migrations
 
                     b.Property<string>("Code");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -35,7 +36,7 @@ namespace TherapyAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("AppointmentTypeId");
+                    b.Property<Guid>("AppointmentTypeId");
 
                     b.Property<Guid>("ClientId");
 
@@ -44,8 +45,6 @@ namespace TherapyAPI.Migrations
                     b.Property<Guid>("TherapistId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppointmentTypeId");
 
                     b.ToTable("Billings");
                 });
@@ -113,13 +112,6 @@ namespace TherapyAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Therapists");
-                });
-
-            modelBuilder.Entity("TherapyAPI.Models.Billing", b =>
-                {
-                    b.HasOne("TherapyAPI.Models.AppointmentTypes", "AppointmentType")
-                        .WithMany()
-                        .HasForeignKey("AppointmentTypeId");
                 });
 #pragma warning restore 612, 618
         }

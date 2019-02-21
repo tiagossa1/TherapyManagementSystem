@@ -12,12 +12,27 @@ namespace TherapyAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Code = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppointmentTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Billings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    AppointmentTypeId = table.Column<Guid>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    TherapistId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Billings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,36 +74,13 @@ namespace TherapyAPI.Migrations
                 {
                     table.PrimaryKey("PK_Therapists", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Billings",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    ClientId = table.Column<Guid>(nullable: false),
-                    AppointmentTypeId = table.Column<Guid>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
-                    TherapistId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Billings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Billings_AppointmentTypes_AppointmentTypeId",
-                        column: x => x.AppointmentTypeId,
-                        principalTable: "AppointmentTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Billings_AppointmentTypeId",
-                table: "Billings",
-                column: "AppointmentTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppointmentTypes");
+
             migrationBuilder.DropTable(
                 name: "Billings");
 
@@ -97,9 +89,6 @@ namespace TherapyAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Therapists");
-
-            migrationBuilder.DropTable(
-                name: "AppointmentTypes");
         }
     }
 }

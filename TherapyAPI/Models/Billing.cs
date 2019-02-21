@@ -6,7 +6,7 @@ namespace TherapyAPI.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid ClientId { get; set; }
-        public AppointmentTypes AppointmentType { get; set; }
+        public Guid AppointmentTypeId { get; set; }
         public decimal Price { get; set; }
         public Guid TherapistId { get; set; }
     }
