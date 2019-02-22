@@ -1,3 +1,43 @@
-<body class="mt-2 mb-2 ml-2 mr-2">
-  login
+<body class="mt-2 mb-2 ml-2 mr-2 text-center">
+  <h2 class="mat-h2 text-danger mb-0">
+    You must login to access. If you don't know this website, please
+    <span class="text-uppercase font-weight-bold">leave right now.</span>
+  </h2>
+  <br />
+  <form [formGroup]="loginForm" (submit)="authenticate()">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Username"
+        type="text"
+        formControlName="username"
+        required
+      />
+      <mat-error *ngIf="!loginForm.value.username.valid"
+        >Name is required</mat-error
+      >
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Password"
+        type="password"
+        formControlName="password"
+        required
+      />
+      <mat-error *ngIf="!loginForm.value.password.valid"
+        >Password is required</mat-error
+      >
+    </mat-form-field>
+    <br />
+    <button
+      class="mt-1"
+      mat-raised-button
+      color="primary"
+      [disabled]="this.loginForm.invalid"
+    >
+      login
+    </button>
+  </form>
 </body>

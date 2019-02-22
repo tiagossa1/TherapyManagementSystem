@@ -2,22 +2,26 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { MatButtonModule, MatCheckboxModule } from "@angular/material";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatInputModule } from "@angular/material";
 
 import { AppComponent } from "./app.component";
-import { NavbarComponent } from "./navbar/navbar.component";
 import { AuthenticationModule } from "./authentication/authentication.module";
 import { AppRoutes } from "./app.routing";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { HomeComponent } from "./components/home/home.component";
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent, NavbarComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatCheckboxModule,
     MatToolbarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
     AuthenticationModule,
     AppRoutes
   ],
