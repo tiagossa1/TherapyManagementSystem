@@ -1,0 +1,10 @@
+div {
+  -webkit-filter: drop-shadow(4px 4px 4px #222);
+  filter: drop-shadow(4px 4px 4px #222);
+}
+
+.text {
+  user-select: none;
+  letter-spacing: 1rem;
+  vertical-align: -webkit-baseline-middle;
+}

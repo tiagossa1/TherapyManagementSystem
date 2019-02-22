@@ -1,14 +1,8 @@
-import { Routes, RouterModule } from "@angular/router";
-import { ModuleWithProviders } from "@angular/compiler/src/core";
-import { IndexComponent } from "./index/index.component";
+import { Routes, RouterModule } from '@angular/router';
+import { ModuleWithProviders } from '@angular/core';
 
 const routes: Routes = [
-  { path: "index", component: IndexComponent },
-  { path: "", redirectTo: "index", pathMatch: "full" },
-  {
-    path: "login",
-    loadChildren: "./authorization/authorization.module#AuthorizationModule"
-  }
+  { path: 'login', loadChildren: './authentication/authentication.module#AuthenticationModule' },
 ];
 
-export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);
+export const AppRoutes : ModuleWithProviders = RouterModule.forRoot(routes);
