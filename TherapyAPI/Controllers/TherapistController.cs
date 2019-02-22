@@ -33,9 +33,9 @@ namespace TherapyAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(string username, string password)
+        public IActionResult Authenticate(Authenticate authenticate)
         {
-            var user = _therapistRepository.Authenticate(username, password);
+            var user = _therapistRepository.Authenticate(authenticate.Username, authenticate.Password);
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 

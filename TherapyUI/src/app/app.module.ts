@@ -6,6 +6,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
 
 import { AppComponent } from "./app.component";
 import { AuthenticationModule } from "./authentication/authentication.module";
@@ -22,6 +23,7 @@ import { HomeComponent } from "./components/home/home.component";
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatButtonModule,
     AuthenticationModule,
     AppRoutes
   ],

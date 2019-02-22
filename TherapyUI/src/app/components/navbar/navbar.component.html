@@ -11,4 +11,5 @@
       仏の癒し
     </span>
   </div>
+  <button *ngIf="userLogged()" class="logout mr-3" mat-raised-button color="warn" (click)="logout()">logout</button>
 </mat-toolbar>

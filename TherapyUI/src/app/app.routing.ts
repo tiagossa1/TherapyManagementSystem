@@ -8,7 +8,9 @@ const routes: Routes = [
     path: "login",
     loadChildren: "./authentication/authentication.module#AuthenticationModule"
   },
-  { path: "index", component: HomeComponent, canActivate: [AuthGuardService] }
+  { path: "index", component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: "", redirectTo: "index", pathMatch: "full" },
+  { path: "**", redirectTo: "index", pathMatch: "full" }
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

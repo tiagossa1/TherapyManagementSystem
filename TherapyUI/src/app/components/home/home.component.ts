@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "src/app/authentication/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    // if(!this.authService.isAuthentication()) {
+    //   this.router.navigate(["index"]);
+    // }
   }
-
 }

@@ -4,10 +4,8 @@ import { RegisterComponent } from './register/register.component';
 import { ModuleWithProviders } from '@angular/core';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: '**', redirectTo: 'login', pathMatch: 'full'}
+  { path: 'register', component: RegisterComponent }
 ];
 
 export const AuthenticationRoutes: ModuleWithProviders = RouterModule.forChild(routes);
