@@ -10,6 +10,7 @@ namespace TherapyAPI.Helpers
         {
             CreateMap<Therapist, TherapistDto>();
             CreateMap<TherapistDto, Therapist>();
+            CreateMap<Appointment, AppointmentDto>();
         }
     }
 }

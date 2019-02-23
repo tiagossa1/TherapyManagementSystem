@@ -6,15 +6,15 @@ using TherapyAPI.Repository;
 
 namespace TherapyAPI.Data.Repository
 {
-    public class AppointmentTypesRepository : Repository<AppointmentTypes>, IAppointmentTypesRepository
+    public class AppointmentTypeRepository : Repository<AppointmentType>, IAppointmentTypeRepository
     {
-        public AppointmentTypesRepository(RepositoryContext RepositoryContext) : base(RepositoryContext)
+        public AppointmentTypeRepository(RepositoryContext RepositoryContext) : base(RepositoryContext)
         {
         }
 
         public bool GetByName(string name)
         {
-            var searchResult = repositoryContext.AppointmentTypes.SingleOrDefault(x => x.Name == name);
+            var searchResult = repositoryContext.AppointmentType.SingleOrDefault(x => x.Name == name);
             if(searchResult != null)
             {
                 return true;

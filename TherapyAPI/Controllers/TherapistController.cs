@@ -64,9 +64,9 @@ namespace TherapyAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register(TherapistDto developerDto)
+        public IActionResult Register(TherapistDto therapistDto)
         {
-            var developer = _mapper.Map<Therapist>(developerDto);
+            var therapist = _mapper.Map<Therapist>(therapistDto);
 
             if (!ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace TherapyAPI.Controllers
                 return BadRequest(errors);
             }
 
-            this._therapistRepository.Create(developer, developerDto.Password);
+            this._therapistRepository.Create(therapist, therapistDto.Password);
             return Ok();
         }
 
@@ -128,7 +128,7 @@ namespace TherapyAPI.Controllers
             }
 
             _therapistRepository.Delete(Id);
-            return Ok("User deleted.");
+            return Ok("Therapist deleted.");
         }
     }
 }

@@ -3,7 +3,7 @@ using TherapyAPI.Repository;
 
 namespace TherapyAPI.Data.Repository
 {
-    public interface IAppointmentTypesRepository : IRepository<AppointmentTypes>
+    public interface IAppointmentTypeRepository : IRepository<AppointmentType>
     {
          bool GetByName(string name);
     }

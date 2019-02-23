@@ -16,21 +16,21 @@ namespace TherapyAPI.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class AppointmentTypesController : ControllerBase
+    public class AppointmentTypeController : ControllerBase
     {
-        private IAppointmentTypesRepository _appointmentTypesRepository;
+        private IAppointmentTypeRepository _AppointmentTypeRepository;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
-        public AppointmentTypesController(IAppointmentTypesRepository appointmentTypesRepository, IMapper mapper, IOptions<AppSettings> appSettings)
+        public AppointmentTypeController(IAppointmentTypeRepository AppointmentTypeRepository, IMapper mapper, IOptions<AppSettings> appSettings)
         {
-            _appointmentTypesRepository = appointmentTypesRepository;
+            _AppointmentTypeRepository = AppointmentTypeRepository;
             _mapper = mapper;
             _appSettings = appSettings.Value;
         }
 
         [HttpPost]
-        public IActionResult Create(AppointmentTypes appointmentTypes)
+        public IActionResult Create(AppointmentType AppointmentType)
         {
             if (!ModelState.IsValid)
             {
@@ -46,32 +46,32 @@ namespace TherapyAPI.Controllers
                 return BadRequest(errors);
             }
 
-            var name = appointmentTypes.Name.Replace(" ", "").ToLower();
+            var name = AppointmentType.Name.Replace(" ", "").ToLower();
 
-            if(_appointmentTypesRepository.GetByName(name) == true)
+            if(_AppointmentTypeRepository.GetByName(name) == true)
             {
                 return BadRequest("This appointment type already exists.");
             }
 
-            appointmentTypes.Code = appointmentTypes.Name.ToUpper();
+            AppointmentType.Code = AppointmentType.Name.ToUpper();
 
-            if (appointmentTypes.Code.Any(x => Char.IsWhiteSpace(x)))
+            if (AppointmentType.Code.Any(x => Char.IsWhiteSpace(x)))
             {
-                appointmentTypes.Code = Regex.Replace(appointmentTypes.Code, @"\s+", "");
+                AppointmentType.Code = Regex.Replace(AppointmentType.Code, @"\s+", "");
             }
 
-            _appointmentTypesRepository.Create(appointmentTypes);
+            _AppointmentTypeRepository.Create(AppointmentType);
             return Ok();
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AppointmentTypes>> Get()
+        public async Task<IEnumerable<AppointmentType>> Get()
         {
-            return await _appointmentTypesRepository.GetAllAsync();
+            return await _AppointmentTypeRepository.GetAllAsync();
         }
 
         [HttpPut]
-        public IActionResult Edit(AppointmentTypes appointmentTypes)
+        public IActionResult Edit(AppointmentType AppointmentType)
         {
             if (!ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace TherapyAPI.Controllers
                 return BadRequest(errors);
             }
 
-            _appointmentTypesRepository.Update(appointmentTypes);
+            _AppointmentTypeRepository.Update(AppointmentType);
             return Ok();
         }
 
@@ -99,14 +99,14 @@ namespace TherapyAPI.Controllers
                 return BadRequest();
             }
 
-            var appointmentType = _appointmentTypesRepository.GetById(Id);
+            var appointmentType = _AppointmentTypeRepository.GetById(Id);
             if (appointmentType == null)
             {
                 return NotFound("Wrong id.");
             }
 
-            _appointmentTypesRepository.Delete(Id);
-            return Ok("Billing deleted.");
+            _AppointmentTypeRepository.Delete(Id);
+            return Ok("Appointment Type deleted.");
         }
     }
 }
