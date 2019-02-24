@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TherapyAPI.Data.Repository;
+using TherapyAPI.Dto;
 using TherapyAPI.Helpers;
 using TherapyAPI.Models;
 
@@ -65,9 +66,10 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AppointmentType>> Get()
+        public async Task<IEnumerable<AppointmentTypeDto>> Get()
         {
-            return await _AppointmentTypeRepository.GetAllAsync();
+            var appointmentTypes = await _AppointmentTypeRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<AppointmentTypeDto>> (appointmentTypes);
         }
 
         [HttpPut]

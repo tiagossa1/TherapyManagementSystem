@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using TherapyAPI.Dto;
 using TherapyAPI.Helpers;
 using TherapyAPI.Models;
 
@@ -48,9 +49,10 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Client>> Get()
+        public async Task<IEnumerable<ClientDto>> Get()
         {
-            return await _clientRepository.GetAllAsync();
+            var clients = await _clientRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ClientDto>> (clients);
         }
 
         [HttpPut]

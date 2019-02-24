@@ -13,6 +13,8 @@ import { AuthenticationModule } from "./authentication/authentication.module";
 import { AppRoutes } from "./app.routing";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { HomeComponent } from "./components/home/home.component";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { JwtInterceptor } from "./authentication/helpers/JwtInterceptor";
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, HomeComponent],
@@ -27,7 +29,13 @@ import { HomeComponent } from "./components/home/home.component";
     AuthenticationModule,
     AppRoutes
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

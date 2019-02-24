@@ -3,7 +3,7 @@ using TherapyAPI.Models;
 
 namespace TherapyAPI.Dto
 {
-    public class TherapistDto : BaseModel
+    public class TherapistDto : BaseDto
     {
         public string Address { get; set; }
 
