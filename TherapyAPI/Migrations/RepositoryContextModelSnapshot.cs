@@ -31,12 +31,6 @@ namespace TherapyAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentTypeId");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("TherapistId");
-
                     b.ToTable("Appointments");
                 });
 
@@ -58,55 +52,55 @@ namespace TherapyAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d5165995-4328-4ade-a0c8-26b522ce39c0"),
+                            Id = new Guid("0209baaa-cc0d-47f6-8d79-0ee02b6a62e0"),
                             Code = "FLORAIS",
                             Name = "Florais"
                         },
                         new
                         {
-                            Id = new Guid("513a61b2-884e-44d8-b47b-69e535802dd8"),
+                            Id = new Guid("c8014002-c739-4676-be98-e16f4170654c"),
                             Code = "ACUPUNTURA",
                             Name = "Acupuntura"
                         },
                         new
                         {
-                            Id = new Guid("73f80f13-75b0-48e0-874d-a43e2e444485"),
+                            Id = new Guid("42e0cf8b-f140-46d8-85eb-b395eec574de"),
                             Code = "CROMOTERAPIA",
                             Name = "Cromoterapia"
                         },
                         new
                         {
-                            Id = new Guid("a07da813-d2b5-43e3-a995-28fb26836658"),
+                            Id = new Guid("9bd2fa11-d0e9-4fdf-84d3-9a9e72d50585"),
                             Code = "MASSAGEM",
                             Name = "Massagem"
                         },
                         new
                         {
-                            Id = new Guid("bce75384-b900-452f-a60a-0298751a4f2f"),
+                            Id = new Guid("4e257c5a-12fb-4d75-b1f1-93ddb9453582"),
                             Code = "TERAPIACOMFLORES",
                             Name = "Terapia Com Flores"
                         },
                         new
                         {
-                            Id = new Guid("9826cede-c81c-4662-a0d5-cacb1d898b50"),
+                            Id = new Guid("993375f1-4503-437e-9402-3edbb311b46d"),
                             Code = "FITOTERAPIA",
                             Name = "Fitoterapia"
                         },
                         new
                         {
-                            Id = new Guid("2296edb8-09ab-4dd7-8b07-2e4b4a9cd118"),
+                            Id = new Guid("0784c86a-78d0-4883-8b31-3b2adf943b8c"),
                             Code = "REFLEXOLOGIA",
                             Name = "Reflexologia"
                         },
                         new
                         {
-                            Id = new Guid("5859f090-a801-4a16-ab88-a291f8bae425"),
+                            Id = new Guid("354ed255-443b-4ca4-96d2-250b625e503f"),
                             Code = "SHIATSU",
                             Name = "Shiatsu"
                         },
                         new
                         {
-                            Id = new Guid("1aabf68d-d1c9-41a1-b1f2-bf12b4d7e62b"),
+                            Id = new Guid("71822333-5a68-47cc-97c3-9d59ead8b495"),
                             Code = "REIKI",
                             Name = "Reiki"
                         });
@@ -195,22 +189,18 @@ namespace TherapyAPI.Migrations
                     b.ToTable("Therapists");
                 });
 
-            modelBuilder.Entity("TherapyAPI.Models.Appointment", b =>
+            modelBuilder.Entity("TherapyAPI.Models.UserSettings", b =>
                 {
-                    b.HasOne("TherapyAPI.Models.AppointmentType", "AppointmentType")
-                        .WithMany()
-                        .HasForeignKey("AppointmentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.HasOne("TherapyAPI.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<Guid>("ClientId");
 
-                    b.HasOne("TherapyAPI.Models.Therapist", "Therapist")
-                        .WithMany()
-                        .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<string>("PreferLanguage");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserSettings");
                 });
 #pragma warning restore 612, 618
         }

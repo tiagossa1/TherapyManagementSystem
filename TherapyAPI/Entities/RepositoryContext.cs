@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using TherapyAPI.Models;
@@ -10,39 +11,39 @@ namespace TherapyAPI.Entities {
             modelBuilder.Entity<AppointmentType> ().HasData (
                 new AppointmentType {
                     Name = "Florais",
-                    Code = "FLORAIS"
+                        Code = "FLORAIS"
                 },
                 new AppointmentType {
                     Name = "Acupuntura",
-                    Code = "ACUPUNTURA"
+                        Code = "ACUPUNTURA"
                 },
                 new AppointmentType {
                     Name = "Cromoterapia",
-                    Code = "CROMOTERAPIA"
+                        Code = "CROMOTERAPIA"
                 },
                 new AppointmentType {
                     Name = "Massagem",
-                    Code = "MASSAGEM",
+                        Code = "MASSAGEM",
                 },
                 new AppointmentType {
                     Name = "Terapia Com Flores",
-                    Code = "TERAPIACOMFLORES",
+                        Code = "TERAPIACOMFLORES",
                 },
                 new AppointmentType {
                     Name = "Fitoterapia",
-                    Code = "FITOTERAPIA"
+                        Code = "FITOTERAPIA"
                 },
                 new AppointmentType {
                     Name = "Reflexologia",
-                    Code = "REFLEXOLOGIA"
+                        Code = "REFLEXOLOGIA"
                 },
                 new AppointmentType {
                     Name = "Shiatsu",
-                    Code = "SHIATSU"
+                        Code = "SHIATSU"
                 },
                 new AppointmentType {
                     Name = "Reiki",
-                    Code = "REIKI"
+                        Code = "REIKI"
                 }
             );
         }
@@ -51,5 +52,6 @@ namespace TherapyAPI.Entities {
         public DbSet<Billing> Billings { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentType> AppointmentType { get; set; }
+        public DbSet<UserSettings> UserSettings { get; set; }
     }
 }

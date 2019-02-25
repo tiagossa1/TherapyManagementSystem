@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <div>
+  <div class="logo" routerLink="index" style="cursor: pointer;">
     <img
       src="../../assets/navbarLogo.png"
       class="float-left"
@@ -16,8 +16,8 @@
       {{ "navbar.billing" | translate }}
     </button>
     <mat-menu #billingMenu="matMenu">
-      <button mat-menu-item>{{ "navbar.addBillings" | translate }}</button>
-      <button mat-menu-item>{{ "navbar.viewBillings" | translate }}</button>
+      <button routerLink="billings/new-billing" mat-menu-item>{{ "navbar.addBillings" | translate }}</button>
+      <button routerLink="billings/view-billings" mat-menu-item>{{ "navbar.viewBillings" | translate }}</button>
     </mat-menu>
     <button
       class="text-white"

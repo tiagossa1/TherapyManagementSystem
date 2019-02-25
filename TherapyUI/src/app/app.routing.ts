@@ -9,11 +9,11 @@ const routes: Routes = [
     loadChildren: "./authentication/authentication.module#AuthenticationModule"
   },
   {
-    path: "billing/new-billing",
+    path: "billings/new-billing",
     loadChildren: "./billings/billings.module#BillingsModule"
   },
   {
-    path: "billing/view-billings",
+    path: "billings/view-billings",
     loadChildren: "./billings/billings.module#BillingsModule"
   },
   { path: "index", component: HomeComponent, canActivate: [AuthGuardService] },

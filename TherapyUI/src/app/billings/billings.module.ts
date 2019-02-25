@@ -8,6 +8,6 @@ import { ViewBillingsComponent } from "./view-billings/view-billings.component";
 @NgModule({
   imports: [CommonModule, BillingsRoutes],
   declarations: [BillingsComponent, NewBillingComponent, ViewBillingsComponent],
-  exports: [BillingsComponent, NewBillingComponent, ViewBillingsComponent]
+  exports: [NewBillingComponent, ViewBillingsComponent]
 })
 export class BillingsModule {}

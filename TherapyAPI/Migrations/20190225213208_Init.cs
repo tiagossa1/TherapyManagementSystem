@@ -8,6 +8,21 @@ namespace TherapyAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AppointmentTypeId = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
+                    TherapistId = table.Column<Guid>(nullable: false),
+                    AppointmentDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppointmentType",
                 columns: table => new
                 {
@@ -76,97 +91,62 @@ namespace TherapyAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "UserSettings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AppointmentTypeId = table.Column<Guid>(nullable: false),
                     ClientId = table.Column<Guid>(nullable: false),
-                    TherapistId = table.Column<Guid>(nullable: false),
-                    AppointmentDate = table.Column<DateTime>(nullable: false)
+                    PreferLanguage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AppointmentType_AppointmentTypeId",
-                        column: x => x.AppointmentTypeId,
-                        principalTable: "AppointmentType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Therapists_TherapistId",
-                        column: x => x.TherapistId,
-                        principalTable: "Therapists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_UserSettings", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("d5165995-4328-4ade-a0c8-26b522ce39c0"), "FLORAIS", "Florais" });
+                values: new object[] { new Guid("0209baaa-cc0d-47f6-8d79-0ee02b6a62e0"), "FLORAIS", "Florais" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("513a61b2-884e-44d8-b47b-69e535802dd8"), "ACUPUNTURA", "Acupuntura" });
+                values: new object[] { new Guid("c8014002-c739-4676-be98-e16f4170654c"), "ACUPUNTURA", "Acupuntura" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("73f80f13-75b0-48e0-874d-a43e2e444485"), "CROMOTERAPIA", "Cromoterapia" });
+                values: new object[] { new Guid("42e0cf8b-f140-46d8-85eb-b395eec574de"), "CROMOTERAPIA", "Cromoterapia" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("a07da813-d2b5-43e3-a995-28fb26836658"), "MASSAGEM", "Massagem" });
+                values: new object[] { new Guid("9bd2fa11-d0e9-4fdf-84d3-9a9e72d50585"), "MASSAGEM", "Massagem" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("bce75384-b900-452f-a60a-0298751a4f2f"), "TERAPIACOMFLORES", "Terapia Com Flores" });
+                values: new object[] { new Guid("4e257c5a-12fb-4d75-b1f1-93ddb9453582"), "TERAPIACOMFLORES", "Terapia Com Flores" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("9826cede-c81c-4662-a0d5-cacb1d898b50"), "FITOTERAPIA", "Fitoterapia" });
+                values: new object[] { new Guid("993375f1-4503-437e-9402-3edbb311b46d"), "FITOTERAPIA", "Fitoterapia" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("2296edb8-09ab-4dd7-8b07-2e4b4a9cd118"), "REFLEXOLOGIA", "Reflexologia" });
+                values: new object[] { new Guid("0784c86a-78d0-4883-8b31-3b2adf943b8c"), "REFLEXOLOGIA", "Reflexologia" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("5859f090-a801-4a16-ab88-a291f8bae425"), "SHIATSU", "Shiatsu" });
+                values: new object[] { new Guid("354ed255-443b-4ca4-96d2-250b625e503f"), "SHIATSU", "Shiatsu" });
 
             migrationBuilder.InsertData(
                 table: "AppointmentType",
                 columns: new[] { "Id", "Code", "Name" },
-                values: new object[] { new Guid("1aabf68d-d1c9-41a1-b1f2-bf12b4d7e62b"), "REIKI", "Reiki" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_AppointmentTypeId",
-                table: "Appointments",
-                column: "AppointmentTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ClientId",
-                table: "Appointments",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_TherapistId",
-                table: "Appointments",
-                column: "TherapistId");
+                values: new object[] { new Guid("71822333-5a68-47cc-97c3-9d59ead8b495"), "REIKI", "Reiki" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -175,16 +155,19 @@ namespace TherapyAPI.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "Billings");
+                name: "AppointmentType");
 
             migrationBuilder.DropTable(
-                name: "AppointmentType");
+                name: "Billings");
 
             migrationBuilder.DropTable(
                 name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Therapists");
+
+            migrationBuilder.DropTable(
+                name: "UserSettings");
         }
     }
 }

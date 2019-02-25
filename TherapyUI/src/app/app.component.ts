@@ -8,13 +8,12 @@ import { Title } from "@angular/platform-browser";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
+  @HostListener("window:onbeforeunload", ["$event"])
+  clearLocalStorage(event) {
+    localStorage.removeItem("currentUser");
+  }
   constructor(private translate: TranslateService, private tile: Title) {
     translate.setDefaultLang("en");
     this.tile.setTitle("Buddha's Therapy");
-  }
-
-  @HostListener("window:onbeforeunload", ["$event"])
-  clearLocalStorage(event) {
-    localStorage.clear();
   }
 }
