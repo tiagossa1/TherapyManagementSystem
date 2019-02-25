@@ -22,6 +22,8 @@ import { AppointmentsService } from "./services/appointments.service";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AlertModule } from "ngx-alerts";
+import { BillingsModule } from "./billings/billings.module";
+import { Title } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, HomeComponent],
@@ -37,6 +39,7 @@ import { AlertModule } from "ngx-alerts";
     MatMenuModule,
     MatIconModule,
     AuthenticationModule,
+    BillingsModule,
     AppRoutes,
     TranslateModule.forRoot({
       loader: {
@@ -53,7 +56,8 @@ import { AlertModule } from "ngx-alerts";
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    }
+    },
+    Title
   ],
   bootstrap: [AppComponent]
 })

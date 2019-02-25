@@ -8,6 +8,14 @@ const routes: Routes = [
     path: "login",
     loadChildren: "./authentication/authentication.module#AuthenticationModule"
   },
+  {
+    path: "billing/new-billing",
+    loadChildren: "./billings/billings.module#BillingsModule"
+  },
+  {
+    path: "billing/view-billings",
+    loadChildren: "./billings/billings.module#BillingsModule"
+  },
   { path: "index", component: HomeComponent, canActivate: [AuthGuardService] },
   { path: "", redirectTo: "index", pathMatch: "full" },
   { path: "**", redirectTo: "index", pathMatch: "full" }
