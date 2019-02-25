@@ -1,3 +1,51 @@
 <body class="mt-2 mb-2 ml-2 mr-2">
-<span>Welcome, {{ token.unique_name }}! </span>
+  <span>{{ "home.welcome" | translate: { name: username } }}</span>
+  <ng-container *ngIf="appointments.length > 0; else elseTemplate">
+    <span *ngIf="appointments.length == 1">
+      {{ "home.appointment" | translate: { appointment: appointments.length } }}
+    </span>
+    <span *ngIf="appointments.length > 1">
+      {{
+        "home.appointments" | translate: { appointments: appointments.length }
+      }}
+    </span>
+
+    <table
+      mat-table
+      [dataSource]="appointments"
+      class="mat-elevation-z5 w-100 mt-3"
+    >
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef> {{ 'home.table.client' | translate }} </th>
+        <td mat-cell *matCellDef="let element">{{ element.client.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="clientMobileNumber">
+        <th mat-header-cell *matHeaderCellDef> {{ 'home.table.clientMobileNumber' | translate }} </th>
+        <td class="mobileNumberProtection" mat-cell *matCellDef="let element">
+          {{ element.client.mobileNumber }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="clientObservations">
+        <th mat-header-cell *matHeaderCellDef> {{ 'home.table.observations' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.client.observations }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="appointmentType">
+        <th mat-header-cell *matHeaderCellDef> {{ 'home.table.appointmentType' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.appointmentType.name }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </ng-container>
+  <ng-template #elseTemplate>
+    {{ "home.noAppointment" | translate }}
+  </ng-template>
 </body>

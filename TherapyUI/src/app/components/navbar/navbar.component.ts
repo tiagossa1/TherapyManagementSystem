@@ -1,21 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/authentication/services/auth.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, SimpleChanges } from "@angular/core";
+import { AuthService } from "src/app/authentication/services/auth.service";
+import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit {
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private translate: TranslateService
+  ) {}
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  userLogged() {
-    return this.authService.isAuthentication();
-  }
+  username: string;
 
   ngOnInit() {
+    this.authService.username.subscribe(data => { debugger
+      this.username = data;
+    });
+
+    this.username = this.authService.getUsername();
   }
 
   logout() {
@@ -23,4 +30,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(["login"]);
   }
 
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
 }

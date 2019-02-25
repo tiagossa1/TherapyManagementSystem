@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/app/authentication/services/auth.service";
-import { Router } from "@angular/router";
 import * as jwt_decode from "jwt-decode";
 import { AppointmentsService } from "src/app/services/appointments.service";
+import { Appointment } from "src/app/models/Appointment";
+import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "src/app/authentication/services/auth.service";
 
 @Component({
   selector: "app-home",
@@ -11,10 +12,22 @@ import { AppointmentsService } from "src/app/services/appointments.service";
 })
 export class HomeComponent implements OnInit {
   private local;
-  private token;
-  appointments: any;
+  token;
+  appointments: Appointment[] = [];
+  displayedColumns: string[] = [
+    "client",
+    "clientMobileNumber",
+    "clientObservations",
+    "appointmentType"
+  ];
 
-  constructor(private appointmentsService: AppointmentsService) {}
+  constructor(
+    private appointmentsService: AppointmentsService,
+    private authService: AuthService,
+    private translate: TranslateService
+  ) {}
+
+  username: string = this.authService.getUsername();
 
   ngOnInit() {
     if (localStorage.getItem("currentUser")) {
@@ -22,16 +35,27 @@ export class HomeComponent implements OnInit {
     }
 
     this.token = this.local ? jwt_decode(this.local.token) : null;
-    console.log(this.token);
-
     this.getAppointments();
 
-    // if(!this.authService.isAuthentication()) {
+    // if(!this.authService.isAuthenticated()) {
     //   this.router.navigate(["index"]);
     // }
   }
 
   getAppointments() {
-    this.appointmentsService.get().subscribe((data) => this.appointments = data);
+    let day: Date = new Date();
+    this.appointmentsService.get().subscribe((data: Appointment[]) => {
+      data.forEach(element => {
+        let appointmentDate = element.appointmentDate.toString().split("/");
+
+        if (
+          element.therapist.id == this.token.nameid &&
+          appointmentDate[0] == day.getDate().toString() &&
+          appointmentDate[1] == "0" + (day.getMonth() + 1)
+        ) {
+          this.appointments.push(element);
+        }
+      });
+    });
   }
 }

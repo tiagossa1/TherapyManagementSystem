@@ -1,10 +1,13 @@
 <body class="mt-2 mb-2 ml-2 mr-2 text-center">
   <h2 class="mat-h2 text-danger mb-0">
-    You must login to access. If you don't know this website, please
-    <span class="text-uppercase font-weight-bold">leave right now.</span>
+    <span [innerHTML]="'login.welcome' | translate"></span>
   </h2>
   <br />
+  <mat-icon style="user-select: none;">account_circle</mat-icon>
   <form [formGroup]="loginForm" (submit)="authenticate()">
+    <mat-icon style="user-select: none;" class="align-middle mr-2"
+      >perm_identity</mat-icon
+    >
     <mat-form-field>
       <input
         matInput
@@ -13,11 +16,14 @@
         formControlName="username"
         required
       />
-      <mat-error *ngIf="!loginForm.value.username.valid"
-        >Name is required</mat-error
-      >
+      <mat-error *ngIf="!loginForm.value.username.valid">
+        {{ "login.requiredName" | translate }}
+      </mat-error>
     </mat-form-field>
     <br />
+    <mat-icon style="user-select: none;" class="align-middle mr-2"
+      >lock</mat-icon
+    >
     <mat-form-field>
       <input
         matInput
@@ -27,7 +33,7 @@
         required
       />
       <mat-error *ngIf="!loginForm.value.password.valid"
-        >Password is required</mat-error
+        >{{ "login.requiredPassword" | translate }}</mat-error
       >
     </mat-form-field>
     <br />

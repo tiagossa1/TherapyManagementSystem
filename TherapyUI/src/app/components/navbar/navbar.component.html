@@ -7,9 +7,62 @@
       width="50"
       height="50"
     />
-    <span class="ml-3 text">
-      仏の癒し
+    <span class="ml-3 mr-0 text text-white font-weight-bold">
+      {{ "navbar.title" | translate }}
     </span>
   </div>
-  <button *ngIf="userLogged()" class="logout mr-3" mat-raised-button color="warn" (click)="logout()">logout</button>
+  <div *ngIf="authService.isAuthenticated()">
+    <button class="text-white" mat-button [matMenuTriggerFor]="billingMenu">
+      {{ "navbar.billing" | translate }}
+    </button>
+    <mat-menu #billingMenu="matMenu">
+      <button mat-menu-item>{{ "navbar.addBillings" | translate }}</button>
+      <button mat-menu-item>{{ "navbar.viewBillings" | translate }}</button>
+    </mat-menu>
+    <button
+      class="text-white"
+      mat-button
+      [matMenuTriggerFor]="appointmentsMenu"
+    >
+      {{ "navbar.appointments" | translate }}
+    </button>
+    <mat-menu #appointmentsMenu="matMenu">
+      <button mat-menu-item>{{ "navbar.addAppointments" | translate }}</button>
+      <button mat-menu-item>{{ "navbar.viewAppointments" | translate }}</button>
+    </mat-menu>
+  </div>
+  <div
+    class="text-uppercase text-white d-flex"
+    style="position: absolute;right: 0;"
+  >
+    <button class="mr-2" mat-button [matMenuTriggerFor]="langMenu">
+      <mat-icon>translate</mat-icon>
+    </button>
+
+    <mat-menu #langMenu="matMenu">
+      <button mat-menu-item (click)="useLanguage('en')">
+        {{ "navbar.languages.english" | translate }}
+      </button>
+      <button mat-menu-item (click)="useLanguage('pt')">
+        {{ "navbar.languages.portuguese" | translate }}
+      </button>
+    </mat-menu>
+
+    <span *ngIf="authService.isAuthenticated()">
+      <button class="mr-4 p-0" mat-button [matMenuTriggerFor]="userMenu">
+        <mat-icon class="mr-2">account_circle</mat-icon> {{ username }}
+      </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>Item 1</button>
+        <button
+          class="text-uppercase text-danger font-weight-bold"
+          (click)="logout()"
+          mat-menu-item>
+          {{ "navbar.logout" | translate }}
+        </button>
+      </mat-menu>
+    </span>
+  </div>
 </mat-toolbar>
+<ngx-alerts></ngx-alerts>

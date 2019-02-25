@@ -3,15 +3,13 @@ div {
   filter: drop-shadow(4px 4px 4px #222);
 }
 
-.text {
-  user-select: none;
-  letter-spacing: 1rem;
-  vertical-align: -webkit-baseline-middle;
-  vertical-align: -moz-middle-with-baseline;
+button:focus {
+  outline: 0;
 }
 
-.logout {
-  text-transform: uppercase;
-  position: absolute;
-  right: 0;
+.text {
+  user-select: none;
+  letter-spacing: 0.5rem;
+  vertical-align: -webkit-baseline-middle;
+  vertical-align: -moz-middle-with-baseline;
 }

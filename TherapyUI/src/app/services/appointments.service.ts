@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { ApiUrl } from "../authentication/services/apiUrl";
-import { map } from "rxjs/operators";
+import { Appointment } from "../models/Appointment";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -13,7 +13,6 @@ export class AppointmentsService {
   }
 
   get() {
-    return this.http
-      .get(this.apiUrl.endpoint + "/appointment");
+    return this.http.get<Appointment[]>(this.apiUrl.endpoint + "/appointment");
   }
 }

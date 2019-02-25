@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
-import { FormControl, FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { AlertService } from "ngx-alerts";
 
 @Component({
   selector: "app-login",
@@ -13,6 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
+    private translate: TranslateService,
+    private alertService: AlertService,
     private router: Router
   ) {}
 
@@ -32,8 +36,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/"]);
         },
         error => {
-          console.log(error);
-          throw new Error(error.error);
+          this.translate.get("logged.error").subscribe((res: string) => {
+            this.alertService.danger(res);
+          });
         }
       );
   }
