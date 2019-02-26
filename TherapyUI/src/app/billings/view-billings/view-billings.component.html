@@ -1,4 +1,11 @@
-<table mat-table [dataSource]="billings" matSort class="mat-elevation-z3 w-100">
+<table
+  mat-table
+  [dataSource]="billings"
+  matSort
+  matSortActive="clientName"
+  matSortDirection="asc"
+  class="mat-elevation-z3 w-100"
+>
   <ng-container matColumnDef="clientName">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
       {{ "billings.table.clientName" | translate }}
@@ -49,7 +56,7 @@
       {{ "billings.table.price" | translate }}
     </th>
     <td mat-cell *matCellDef="let value">
-      {{ value.price | currency: "EUR":true }}
+      {{ value.price | currency: "EUR" }}
     </td>
   </ng-container>
 

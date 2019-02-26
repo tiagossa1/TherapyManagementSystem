@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ApiUrl } from "src/app/authentication/services/apiUrl";
 import { Billing } from "src/app/models/Billing";
-import { catchError, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"

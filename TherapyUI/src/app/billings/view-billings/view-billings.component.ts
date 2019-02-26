@@ -4,6 +4,7 @@ import { Billing } from "src/app/models/Billing";
 import {
   MatTableDataSource,
   MatSort,
+  MatSortable,
   MatDialog
 } from "@angular/material";
 import { NewBillingComponent } from "../new-billing/new-billing.component";
@@ -14,15 +15,14 @@ import { NewBillingComponent } from "../new-billing/new-billing.component";
   styleUrls: ["./view-billings.component.scss"]
 })
 export class ViewBillingsComponent implements OnInit {
-  billings: Billing[];
-  dataSource;
+  billings;
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
-    "appointmentDate",
-    "appointmentTypeName",
     "clientName",
     "clientEmail",
+    "appointmentDate",
+    "appointmentTypeName",
     "therapistName",
     "price"
   ];
@@ -37,10 +37,8 @@ export class ViewBillingsComponent implements OnInit {
 
   getBillings() {
     this.billingService.get().subscribe(data => {
-      this.billings = data;
-      this.dataSource = new MatTableDataSource(this.billings);
-
-      this.dataSource.sort = this.sort;
+      this.billings = new MatTableDataSource(data as Billing[]);
+      this.billings.sort = this.sort;
     });
   }
 
