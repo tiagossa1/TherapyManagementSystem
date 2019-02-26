@@ -1,7 +1,8 @@
 using System;
 
 namespace TherapyAPI.Dto {
-    public class ClientDto {
+    public class ClientDto:BaseDto {
+        public Guid Id { get; set; }
         public string Address { get; set; }
         public char CivilStatus { get; set; }
         public DateTime DateOfBirth { get; set; }

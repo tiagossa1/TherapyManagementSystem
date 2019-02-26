@@ -1,11 +1,10 @@
 import { Routes, RouterModule } from "@angular/router";
-import { NewBillingComponent } from "./new-billing/new-billing.component";
 import { ViewBillingsComponent } from "./view-billings/view-billings.component";
 import { ModuleWithProviders } from "@angular/core";
+import { AuthGuardService } from "../services/auth-guard.service";
 
 const routes: Routes = [
-  { path: "billings/new-billing", component: NewBillingComponent },
-  { path: "billings/view-billings", component: ViewBillingsComponent },
+  { path: "billings/view-billings", component: ViewBillingsComponent, canActivate: [AuthGuardService] },
   { path: "billings", redirectTo: "billings/view-billings", pathMatch: "full" }
 ];
 

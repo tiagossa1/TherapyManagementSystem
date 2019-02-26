@@ -16,7 +16,6 @@
       {{ "navbar.billing" | translate }}
     </button>
     <mat-menu #billingMenu="matMenu">
-      <button routerLink="billings/new-billing" mat-menu-item>{{ "navbar.addBillings" | translate }}</button>
       <button routerLink="billings/view-billings" mat-menu-item>{{ "navbar.viewBillings" | translate }}</button>
     </mat-menu>
     <button
@@ -27,7 +26,6 @@
       {{ "navbar.appointments" | translate }}
     </button>
     <mat-menu #appointmentsMenu="matMenu">
-      <button routerLink="/billing/new-billing" mat-menu-item>{{ "navbar.addAppointments" | translate }}</button>
       <button routerLink="/billing/view-billings" mat-menu-item>{{ "navbar.viewAppointments" | translate }}</button>
     </mat-menu>
   </div>

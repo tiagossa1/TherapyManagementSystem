@@ -1,4 +1,6 @@
 {
+  "generic.save": "Save",
+  "generic.close": "Close",
   "login.welcome": "Login is required. If you don't know this website, please <span class='text-uppercase font-weight-bold'> leave right now.</span>",
   "login.requiredName": "Name is required.",
   "login.requiredPassword": "Password is required.",
@@ -23,5 +25,17 @@
   "home.table.client": "Client",
   "home.table.clientMobileNumber": "Client's Mobile Number",
   "home.table.observations": "Observations",
-  "home.table.appointmentType": "Appointment Type"
+  "home.table.appointmentType": "Appointment Type",
+  "billings.table.appointmentDate": "Appointment Date",
+  "billings.table.appointmentTypeName": "Appointment Type",
+  "billings.table.clientName": "Client",
+  "billings.table.clientEmail": "Client's Email",
+  "billings.table.therapistName": "Therapist's Name",
+  "billings.table.price": "Price",
+  "billings.button.newBilling": "Create a new billing",
+  "billings.new-billing.client": "Client",
+  "billings.new-billing.therapist": "Therapist",
+  "billings.new-billing.appointment": "Client's Appointments",
+  "billings.new-billing.price": "Price",
+  "billings.new-billing.title": "New billing creation"
 }

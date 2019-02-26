@@ -9,10 +9,6 @@ const routes: Routes = [
     loadChildren: "./authentication/authentication.module#AuthenticationModule"
   },
   {
-    path: "billings/new-billing",
-    loadChildren: "./billings/billings.module#BillingsModule"
-  },
-  {
     path: "billings/view-billings",
     loadChildren: "./billings/billings.module#BillingsModule"
   },

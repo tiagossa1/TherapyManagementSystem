@@ -7,12 +7,15 @@ import { AlertService } from "ngx-alerts";
 import { TranslateService } from "@ngx-translate/core";
 import * as jwt_decode from "jwt-decode";
 import { Subject } from "rxjs";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   private readonly apiUrl: ApiUrl;
+  helper = new JwtHelperService();
+
   username = new Subject<string>();
 
   constructor(
@@ -57,6 +60,16 @@ export class AuthService {
 
   public isAuthenticated(): boolean {
     const local: any = JSON.parse(localStorage.getItem("currentUser"));
-    return local && local.token ? true : false;
+    let tokenExpired: boolean = true;
+    if(local && local.token) {
+      tokenExpired = this.helper.isTokenExpired(local.token);
+    }
+
+    if(tokenExpired) {
+      localStorage.removeItem("currentUser");
+      return false;
+    }
+
+    return local && local.token && !tokenExpired ? true : false;
   }
 }

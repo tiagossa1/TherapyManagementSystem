@@ -1,4 +1,6 @@
 {
+  "generic.save": "Guardar",
+  "generic.close": "Fechar",
   "login.welcome": "Login obrigatório. Se não conhece este site, por favor <span class='text-uppercase font-weight-bold'> saia deste site.</span>",
   "login.requiredName": "O campo Nome é obrigatório",
   "login.requiredPassword": "O campo Password é obrigatório",
@@ -21,5 +23,17 @@
   "home.table.client": "Cliente",
   "home.table.clientMobileNumber": "Número do Cliente",
   "home.table.observations": "Observações",
-  "home.table.appointmentType": "Tipo de Consulta"
+  "home.table.appointmentType": "Tipo de Consulta",
+  "billings.table.appointmentDate": "Data da Consulta",
+  "billings.table.appointmentTypeName": "Tipo de Consulta",
+  "billings.table.clientName": "Cliente",
+  "billings.table.clientEmail": "Email do Cliente",
+  "billings.table.price": "Preço",
+  "billings.table.therapistName": "Terapeuta",
+  "billings.button.newBilling": "Criar uma nova fatura",
+  "billings.new-billing.client": "Cliente",
+  "billings.new-billing.therapist": "Terapeuta",
+  "billings.new-billing.appointment": "Consulta",
+  "billings.new-billing.price": "Preço",
+  "billings.new-billing.title": "Nova fatura"
 }

@@ -8,9 +8,11 @@ namespace TherapyAPI.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<Therapist, TherapistDto>();
-            CreateMap<TherapistDto, Therapist>();
-            CreateMap<Appointment, AppointmentDto>();
+            CreateMap<Appointment, AppointmentDto>().ReverseMap();
+            CreateMap<AppointmentType, AppointmentTypeDto>().ReverseMap();
+            CreateMap<Billing, BillingDto>().ReverseMap();
+            CreateMap<Client, ClientDto>().ReverseMap();
+            CreateMap<Therapist, TherapistDto>().ReverseMap();
         }
     }
 }

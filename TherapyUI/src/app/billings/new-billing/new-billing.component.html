@@ -1,3 +1,62 @@
-<p>
-  new-billing works!
-</p>
+<body class="mt-2 mb-2 ml-2 mr-2 text-center">
+  <h4>{{ "billings.new-billing.title" | translate }}</h4>
+  <form [formGroup]="billingForm">
+    <mat-form-field>
+      <mat-select
+        (selectionChange)="selectedClient($event.value)"
+        placeholder=" {{ 'billings.new-billing.client' | translate }} "
+      >
+        <mat-option *ngFor="let client of clients" [value]="client.id">
+          {{ client.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-select
+        (selectionChange)="selectedTherapist($event.value)"
+        placeholder=" {{ 'billings.new-billing.therapist' | translate }} "
+      >
+        <mat-option *ngFor="let therapist of therapists" [value]="therapist.id">
+          {{ therapist.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-select
+        [disabled]="
+          (!clientIdSelected && !therapistIdSelected) ||
+          this.appointments.length == 0
+        "
+        (selectionChange)="selectedAppointments($event.value)"
+        placeholder=" {{ 'billings.new-billing.appointment' | translate }} "
+      >
+        <mat-option
+          *ngFor="let appointment of appointments"
+          [value]="appointment.id"
+        >
+          {{ appointment.appointmentDate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input
+        matInput
+        type="number"
+        min="0"
+        onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+        formControlName="price"
+        placeholder=" {{ 'billings.new-billing.price' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+    <button [disabled]="billingForm.invalid" (click)="onSave()" mat-button>
+      {{ "generic.save" | translate }}
+    </button>
+    <button (click)="onClose()" color="warn" mat-button>
+      {{ "generic.close" | translate }}
+    </button>
+  </form>
+</body>

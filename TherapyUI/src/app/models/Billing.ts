@@ -1,7 +1,9 @@
+import { Appointment } from "./Appointment";
+
 export class Billing {
     id: string;
+    appointmentId: string;
     clientId: string;
     therapistId: string;
-    appointmentId: string;
     price: number;
 }

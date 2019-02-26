@@ -44,6 +44,7 @@ namespace TherapyAPI.Controllers
                 return BadRequest(errors);
             }
 
+            client.DateOfBirth = Convert.ToDateTime(client.DateOfBirth.ToShortDateString());
             this._clientRepository.Create(client);
             return Ok();
         }
