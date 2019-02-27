@@ -1,6 +1,7 @@
 {
   "generic.save": "Save",
   "generic.close": "Close",
+  "generic.edit": "Edit",
   "login.welcome": "Login is required. If you don't know this website, please <span class='text-uppercase font-weight-bold'> leave right now.</span>",
   "login.requiredName": "Name is required.",
   "login.requiredPassword": "Password is required.",
@@ -37,5 +38,6 @@
   "billings.new-billing.therapist": "Therapist",
   "billings.new-billing.appointment": "Client's Appointments",
   "billings.new-billing.price": "Price",
-  "billings.new-billing.title": "New billing creation"
+  "billings.new-billing.title": "New billing creation",
+  "billings.tooltip.delete": "Delete this billing"
 }

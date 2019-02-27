@@ -5,7 +5,7 @@ namespace TherapyAPI.Models
 {
     public class BaseModel
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }

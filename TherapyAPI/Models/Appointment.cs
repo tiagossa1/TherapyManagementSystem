@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TherapyAPI.Models {
     public class Appointment {
-        public Guid Id { get; set; } = Guid.NewGuid ();
+        public Guid Id { get; set; }
         public Guid AppointmentTypeId { get; set; }
         [NotMapped]
         public AppointmentType AppointmentType { get; set; }

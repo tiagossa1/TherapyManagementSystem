@@ -4,7 +4,7 @@ using TherapyAPI.Dto;
 
 namespace TherapyAPI.Models {
     public class Billing {
-        public Guid Id { get; set; } = Guid.NewGuid ();
+        public Guid Id { get; set; }
 
         [Required (ErrorMessage = "An appointment is required.")]
         public Guid AppointmentId { get; set; }

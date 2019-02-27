@@ -1,6 +1,7 @@
 {
   "generic.save": "Guardar",
   "generic.close": "Fechar",
+  "generic.edit": "Editar",
   "login.welcome": "Login obrigatório. Se não conhece este site, por favor <span class='text-uppercase font-weight-bold'> saia deste site.</span>",
   "login.requiredName": "O campo Nome é obrigatório",
   "login.requiredPassword": "O campo Password é obrigatório",
@@ -35,5 +36,6 @@
   "billings.new-billing.therapist": "Terapeuta",
   "billings.new-billing.appointment": "Consulta",
   "billings.new-billing.price": "Preço",
-  "billings.new-billing.title": "Nova fatura"
+  "billings.new-billing.title": "Nova fatura",
+  "billings.tooltip.delete": "Apagar esta fatura"
 }

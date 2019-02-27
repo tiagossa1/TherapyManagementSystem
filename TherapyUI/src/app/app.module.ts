@@ -24,6 +24,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AlertModule } from "ngx-alerts";
 import { BillingsModule } from "./billings/billings.module";
 import { Title } from '@angular/platform-browser';
+import { AppointmentsModule } from "./appointments/appointments.module";
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, HomeComponent],
@@ -40,6 +41,7 @@ import { Title } from '@angular/platform-browser';
     MatIconModule,
     AuthenticationModule,
     BillingsModule,
+    AppointmentsModule,
     AppRoutes,
     TranslateModule.forRoot({
       loader: {

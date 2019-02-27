@@ -83,7 +83,7 @@ namespace TherapyAPI.Controllers {
             return _mapper.Map<IEnumerable<TherapistDto>> (therapists);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Edit (Therapist therapist) {
             if (!ModelState.IsValid) {
                 var errors = new List<string> ();
@@ -100,7 +100,7 @@ namespace TherapyAPI.Controllers {
             return Ok ();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete (Guid Id) {
             if (!ModelState.IsValid) {
                 return BadRequest ();

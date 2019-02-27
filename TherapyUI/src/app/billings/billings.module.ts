@@ -12,7 +12,11 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from "@angular/material/tooltip";
+
 import { ReactiveFormsModule } from "@angular/forms";
+import { EditBillingComponent } from "./edit-billing/edit-billing.component";
 
 @NgModule({
   imports: [
@@ -24,11 +28,13 @@ import { ReactiveFormsModule } from "@angular/forms";
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
+    MatIconModule,
+    MatTooltipModule,
     TranslateModule,
     ReactiveFormsModule
   ],
-  declarations: [BillingsComponent, NewBillingComponent, ViewBillingsComponent],
-  entryComponents: [NewBillingComponent],
-  exports: [NewBillingComponent, ViewBillingsComponent]
+  declarations: [BillingsComponent, NewBillingComponent, ViewBillingsComponent, EditBillingComponent],
+  entryComponents: [NewBillingComponent, EditBillingComponent],
+  exports: [NewBillingComponent, ViewBillingsComponent, EditBillingComponent]
 })
 export class BillingsModule {}

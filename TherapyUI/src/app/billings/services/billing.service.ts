@@ -13,10 +13,20 @@ export class BillingService {
   }
 
   get() {
-    return this.http.get<Billing[]>(this.apiUrl.endpoint + "/billing");
+    return this.http.get<Billing[]>(`${this.apiUrl.endpoint}/billing/`);
+  }
+
+  delete(id: string) {
+    return this.http.delete(`${this.apiUrl.endpoint}/billing/${id}`, {
+      responseType: "text"
+    });
   }
 
   save(body: any) {
-    return this.http.post(this.apiUrl.endpoint + "/billing", body);
+    return this.http.post(`${this.apiUrl.endpoint}/billing/`, body);
+  }
+
+  edit(id: string, body: any) {
+    return this.http.put(`${this.apiUrl.endpoint}/billing/${id}`, body);
   }
 }

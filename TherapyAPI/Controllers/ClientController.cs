@@ -56,7 +56,7 @@ namespace TherapyAPI.Controllers
             return _mapper.Map<IEnumerable<ClientDto>> (clients);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Edit(Client client)
         {
             if (!ModelState.IsValid)
@@ -77,7 +77,7 @@ namespace TherapyAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(Guid Id)
         {
             if (!ModelState.IsValid)

@@ -3,47 +3,68 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using TherapyAPI.Models;
 
-namespace TherapyAPI.Entities {
-    public class RepositoryContext : DbContext {
-        public RepositoryContext (DbContextOptions options) : base (options) { }
+namespace TherapyAPI.Entities
+{
+    public class RepositoryContext : DbContext
+    {
+        public RepositoryContext(DbContextOptions options) : base(options) { }
 
-        protected override void OnModelCreating (ModelBuilder modelBuilder) {
-            modelBuilder.Entity<AppointmentType> ().HasData (
-                new AppointmentType {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AppointmentType>().HasData(
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Florais",
-                        Code = "FLORAIS"
+                    Code = "FLORAIS"
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Acupuntura",
-                        Code = "ACUPUNTURA"
+                    Code = "ACUPUNTURA"
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Cromoterapia",
-                        Code = "CROMOTERAPIA"
+                    Code = "CROMOTERAPIA"
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Massagem",
-                        Code = "MASSAGEM",
+                    Code = "MASSAGEM",
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Terapia Com Flores",
-                        Code = "TERAPIACOMFLORES",
+                    Code = "TERAPIACOMFLORES",
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Fitoterapia",
-                        Code = "FITOTERAPIA"
+                    Code = "FITOTERAPIA"
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Reflexologia",
-                        Code = "REFLEXOLOGIA"
+                    Code = "REFLEXOLOGIA"
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Shiatsu",
-                        Code = "SHIATSU"
+                    Code = "SHIATSU"
                 },
-                new AppointmentType {
+                new AppointmentType
+                {
+                    Id = Guid.NewGuid(),
                     Name = "Reiki",
-                        Code = "REIKI"
+                    Code = "REIKI"
                 }
             );
         }
