@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ApiUrl } from "../authentication/services/apiUrl";
-import { Appointment } from "../models/Appointment";
 import { HttpClient } from "@angular/common/http";
+import { Appointment } from "../models/Appointment";
 
 @Injectable({
   providedIn: "root"
@@ -14,5 +14,19 @@ export class AppointmentsService {
 
   get() {
     return this.http.get<Appointment[]>(this.apiUrl.endpoint + "/appointment");
+  }
+
+  save(body: any) {
+    return this.http.post(this.apiUrl.endpoint + "/appointment", body);
+  }
+
+  delete(id: string) {
+    return this.http.delete(this.apiUrl.endpoint + "/appointment/" + id, {
+      responseType: "text"
+    });
+  }
+
+  edit(id: string, body: any) {
+    return this.http.put(`${this.apiUrl.endpoint}/appointment/${id}`, body);
   }
 }

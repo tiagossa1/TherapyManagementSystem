@@ -1,0 +1,116 @@
+<body class="mt-2 mb-2 ml-2 mr-2 text-center">
+  <h4 *ngIf="data.editing">
+    {{ "appointments.appointment-operations.edit.title" | translate }}
+  </h4>
+  <h4 *ngIf="!data.editing">
+    {{ "appointments.appointment-operations.add.title" | translate }}
+  </h4>
+
+  <form [formGroup]="appointmentForm">
+    <mat-form-field>
+      <mat-select
+        [disabled]="data.editing"
+        formControlName="clientId"
+        (selectionChange)="selectedClient($event.value)"
+        placeholder=" {{
+          'appointments.appointment-operations.client' | translate
+        }} "
+      >
+        <mat-option *ngFor="let client of clients" [value]="client.id">
+          {{ client.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-select
+        [disabled]="data.editing"
+        formControlName="therapistId"
+        (selectionChange)="selectedTherapist($event.value)"
+        placeholder=" {{
+          'appointments.appointment-operations.therapist' | translate
+        }} "
+      >
+        <mat-option *ngFor="let therapist of therapists" [value]="therapist.id">
+          {{ therapist.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-select
+        [disabled]="data.editing"
+        formControlName="appointmentTypeId"
+        (selectionChange)="selectedAppointmentType($event.value)"
+        placeholder=" {{
+          'appointments.appointment-operations.appointment-type' | translate
+        }} "
+      >
+        <mat-option
+          *ngFor="let appointmentType of appointmentTypes"
+          [value]="appointmentType.id"
+        >
+          {{ appointmentType.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field color="primary" style="width: 180px;">
+      <input
+        matInput
+        readonly
+        [formControl]="appointmentDate"
+        [matDatepicker]="picker"
+        placeholder=" {{
+          'appointments.appointment-operations.appointment-date' | translate
+        }} "
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br />
+
+    <div class="mt-2">
+      <input
+        [formControl]="appointmentTime"
+        class="border-top-0 border-left-0 border-right-0 timeInput"
+        style="width: 180px;"
+        placeholder=" {{
+          'appointments.appointment-operations.appointment-time' | translate
+        }} "
+        aria-label="24hr format"
+        [ngxTimepicker]="toggleIcon"
+        [format]="24"
+        min="09:00 am"
+        max="06:00 pm"
+        readonly
+      />
+      <ngx-material-timepicker
+        #toggleIcon
+        [ngxMaterialTimepickerTheme]="websiteTheme"
+      ></ngx-material-timepicker>
+    </div>
+    <br />
+
+    <button
+      [disabled]="
+        appointmentForm.invalid &&
+        appointmentDate.invalid &&
+        appointmentTime.invalid
+      "
+      (click)="onSave()"
+      mat-button
+    >
+      <ng-container *ngIf="!this.data.editing; else elseTemplate">
+        {{ "generic.save" | translate }}
+      </ng-container>
+      <ng-template #elseTemplate>
+        {{ "generic.edit" | translate }}
+      </ng-template>
+    </button>
+    <button (click)="onClose()" color="warn" mat-button>
+      {{ "generic.close" | translate }}
+    </button>
+  </form>
+</body>

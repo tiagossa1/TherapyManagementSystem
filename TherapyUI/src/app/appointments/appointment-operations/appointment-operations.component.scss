@@ -1,0 +1,13 @@
+.timeInput {
+  border-bottom: 1px solid #adadad;
+  padding-bottom: 0.5px;
+  text-indent: 1px;
+}
+
+.timeInput::placeholder {
+  color: #888888;
+}
+
+.timeInput:focus {
+  outline: none !important;
+}

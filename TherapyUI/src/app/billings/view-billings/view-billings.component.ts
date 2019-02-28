@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { BillingService } from "../services/billing.service";
 import { Billing } from "src/app/models/Billing";
 import { MatTableDataSource, MatSort, MatDialog } from "@angular/material";
-import { NewBillingComponent } from "../new-billing/new-billing.component";
+import { BillingOperationsComponent } from "../billing-operations/billing-operations.component";
 import Swal from "sweetalert2";
-import { EditBillingComponent } from "../edit-billing/edit-billing.component";
 
 @Component({
   selector: "app-view-billings",
@@ -41,8 +40,28 @@ export class ViewBillingsComponent implements OnInit {
     });
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(NewBillingComponent, {
+  openDialog(value) {
+    if (value) {
+      console.log(value);
+      const dialogRef = this.dialog.open(BillingOperationsComponent, {
+        width: "250px",
+        data: {
+          id: value.id,
+          appointmentId: value.appointment.id,
+          clientId: value.appointment.client.id,
+          therapistId: value.appointment.therapist.id,
+          price: value.price,
+          editing: true
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(() => {
+        this.getBillings();
+      });
+      return;
+    }
+
+    const dialogRef = this.dialog.open(BillingOperationsComponent, {
       width: "500px",
       height: "400px"
     });
@@ -73,24 +92,6 @@ export class ViewBillingsComponent implements OnInit {
           }
         );
       }
-    });
-  }
-
-  onEdit(value) {
-    console.log(value);
-    const dialogRef = this.dialog.open(EditBillingComponent, {
-      width: "250px",
-      data: {
-        id: value.id,
-        appointmentId: value.appointment.id,
-        clientId: value.appointment.client.id,
-        therapistId: value.appointment.therapist.id,
-        price: value.price
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.getBillings();
     });
   }
 }

@@ -4,4 +4,5 @@ export interface BillingInterface {
   clientId: string;
   therapistId: string;
   price: number;
+  editing: boolean;
 }

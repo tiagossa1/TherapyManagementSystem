@@ -2,8 +2,8 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BillingsComponent } from "./billings.component";
 import { BillingsRoutes } from "./billings.routing";
-import { NewBillingComponent } from "./new-billing/new-billing.component";
 import { ViewBillingsComponent } from "./view-billings/view-billings.component";
+import { BillingOperationsComponent } from "./billing-operations/billing-operations.component";
 import { TranslateModule } from "@ngx-translate/core";
 
 import { MatTableModule } from "@angular/material/table";
@@ -16,7 +16,6 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 import { ReactiveFormsModule } from "@angular/forms";
-import { EditBillingComponent } from "./edit-billing/edit-billing.component";
 
 @NgModule({
   imports: [
@@ -33,8 +32,12 @@ import { EditBillingComponent } from "./edit-billing/edit-billing.component";
     TranslateModule,
     ReactiveFormsModule
   ],
-  declarations: [BillingsComponent, NewBillingComponent, ViewBillingsComponent, EditBillingComponent],
-  entryComponents: [NewBillingComponent, EditBillingComponent],
-  exports: [NewBillingComponent, ViewBillingsComponent, EditBillingComponent]
+  declarations: [
+    BillingsComponent,
+    BillingOperationsComponent,
+    ViewBillingsComponent
+  ],
+  entryComponents: [BillingOperationsComponent],
+  exports: [BillingOperationsComponent, ViewBillingsComponent]
 })
 export class BillingsModule {}
