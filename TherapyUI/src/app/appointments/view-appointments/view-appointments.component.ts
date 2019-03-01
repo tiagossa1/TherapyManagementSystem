@@ -4,14 +4,17 @@ import { AppointmentsService } from "src/app/services/appointments.service";
 import { AppointmentOperationsComponent } from "../appointment-operations/appointment-operations.component";
 import { Appointment } from "src/app/models/Appointment";
 import Swal from "sweetalert2";
+import * as jwt_decode from "jwt-decode";
 
 @Component({
   selector: "app-view-appointments",
   templateUrl: "./view-appointments.component.html",
-  styleUrls: ["./view-appointments.component.css"]
+  styleUrls: ["./view-appointments.component.scss"]
 })
 export class ViewAppointmentsComponent implements OnInit {
   appointments;
+  token;
+  local;
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
@@ -29,12 +32,24 @@ export class ViewAppointmentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (localStorage.getItem("currentUser")) {
+      this.local = JSON.parse(localStorage.getItem("currentUser"));
+    }
+
+    this.token = this.local ? jwt_decode(this.local.token) : null;
     this.getAppointments();
   }
 
   getAppointments() {
     this.appointmentsService.get().subscribe(data => {
-      this.appointments = new MatTableDataSource(data as Appointment[]);
+      let array: Appointment[] = [];
+      data.forEach(element => {
+        if (element.therapist.id == this.token.nameid) {
+          array.push(element);
+        }
+      });
+
+      this.appointments = new MatTableDataSource(array);
       this.appointments.sort = this.sort;
     });
   }

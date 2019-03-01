@@ -60,6 +60,20 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="discount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{ "billings.table.discount" | translate }}
+    </th>
+    <td mat-cell *matCellDef="let value">
+      <ng-container *ngIf="value.discount; else elseTemplate">
+        <mat-icon class="text-success" style="user-select: none;">check_circle</mat-icon>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <mat-icon class="text-danger" style="user-select: none;">cancel</mat-icon>
+      </ng-template>
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let value" (click)="onDelete(value.id)">
@@ -75,10 +89,7 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let value" (click)="openDialog(value)">
-      <mat-icon
-        matTooltip="Edit"
-        class="text-primary"
-        style="cursor: pointer;"
+      <mat-icon matTooltip="Edit" class="text-primary" style="cursor: pointer;"
         >edit</mat-icon
       >
     </td>

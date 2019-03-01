@@ -73,6 +73,5 @@ namespace TherapyAPI.Entities
         public DbSet<Billing> Billings { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentType> AppointmentType { get; set; }
-        public DbSet<UserSettings> UserSettings { get; set; }
     }
 }

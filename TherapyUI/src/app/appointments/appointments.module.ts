@@ -19,13 +19,11 @@ import {
   MatIconModule,
   MatTooltipModule,
   MatNativeDateModule,
-  DateAdapter,
   MAT_DATE_LOCALE
 } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
-import { DateFormat } from "../DateFormat";
 @NgModule({
   imports: [
     CommonModule,

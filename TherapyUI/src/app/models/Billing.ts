@@ -4,4 +4,5 @@ export class Billing {
     clientId: string;
     therapistId: string;
     price: number;
+    discount: boolean;
 }

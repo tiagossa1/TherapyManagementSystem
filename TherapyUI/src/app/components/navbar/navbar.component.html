@@ -16,7 +16,9 @@
       {{ "navbar.billing" | translate }}
     </button>
     <mat-menu #billingMenu="matMenu">
-      <button routerLink="billings/view-billings" mat-menu-item>{{ "navbar.viewBillings" | translate }}</button>
+      <button routerLink="billings/view-billings" mat-menu-item>
+        {{ "navbar.viewBillings" | translate }}
+      </button>
     </mat-menu>
     <button
       class="text-white"
@@ -26,7 +28,9 @@
       {{ "navbar.appointments" | translate }}
     </button>
     <mat-menu #appointmentsMenu="matMenu">
-      <button routerLink="appointments/view-appointments" mat-menu-item>{{ "navbar.viewAppointments" | translate }}</button>
+      <button routerLink="appointments/view-appointments" mat-menu-item>
+        {{ "navbar.viewAppointments" | translate }}
+      </button>
     </mat-menu>
   </div>
   <div
@@ -52,11 +56,11 @@
       </button>
 
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item>Item 1</button>
         <button
           class="text-uppercase text-danger font-weight-bold"
           (click)="logout()"
-          mat-menu-item>
+          mat-menu-item
+        >
           {{ "navbar.logout" | translate }}
         </button>
       </mat-menu>

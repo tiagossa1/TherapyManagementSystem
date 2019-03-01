@@ -9,8 +9,8 @@ using TherapyAPI.Entities;
 namespace TherapyAPI.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20190226163515_Init")]
-    partial class Init
+    [Migration("20190301155905_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,55 +54,55 @@ namespace TherapyAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d5082063-1408-487e-9016-aebda09f77ad"),
+                            Id = new Guid("9e6dcae1-f0f4-4fb2-953e-09c6f6760270"),
                             Code = "FLORAIS",
                             Name = "Florais"
                         },
                         new
                         {
-                            Id = new Guid("a7eb6971-0c90-453d-97ab-a1d546dd8e0b"),
+                            Id = new Guid("5310e626-e8bf-4ed9-bb5c-da2a0d32f00c"),
                             Code = "ACUPUNTURA",
                             Name = "Acupuntura"
                         },
                         new
                         {
-                            Id = new Guid("0d377695-87f0-4461-aaed-c3eb48eeb43d"),
+                            Id = new Guid("cb9bc9ad-8c7b-419a-9b42-f13307dd459c"),
                             Code = "CROMOTERAPIA",
                             Name = "Cromoterapia"
                         },
                         new
                         {
-                            Id = new Guid("20f2d903-59ca-4334-9453-576b810230ff"),
+                            Id = new Guid("97f79615-6ca9-4c82-9655-8cc952eb4aa3"),
                             Code = "MASSAGEM",
                             Name = "Massagem"
                         },
                         new
                         {
-                            Id = new Guid("0ec4fc11-799b-4912-ba5c-5a30856fb236"),
+                            Id = new Guid("b35a10c3-0d43-4dc5-b1d4-a591fdd36b94"),
                             Code = "TERAPIACOMFLORES",
                             Name = "Terapia Com Flores"
                         },
                         new
                         {
-                            Id = new Guid("c79e2d78-5436-4b42-a3ed-3018214019bf"),
+                            Id = new Guid("bec6ac16-7932-48dc-903f-4f6512f1f1fb"),
                             Code = "FITOTERAPIA",
                             Name = "Fitoterapia"
                         },
                         new
                         {
-                            Id = new Guid("059adb02-1a31-4283-96f8-05085d744f8d"),
+                            Id = new Guid("7d593a97-370c-424b-a6d2-7a783841ba6a"),
                             Code = "REFLEXOLOGIA",
                             Name = "Reflexologia"
                         },
                         new
                         {
-                            Id = new Guid("f8d7306e-a63c-426a-bfd2-a405b26e2316"),
+                            Id = new Guid("ca3dac30-56b5-4a2e-9549-095d007fa436"),
                             Code = "SHIATSU",
                             Name = "Shiatsu"
                         },
                         new
                         {
-                            Id = new Guid("29fa3162-9cf7-46f7-b988-927dc0a29171"),
+                            Id = new Guid("50593c90-2d39-4acc-bd78-a9804ef32237"),
                             Code = "REIKI",
                             Name = "Reiki"
                         });
@@ -114,6 +114,8 @@ namespace TherapyAPI.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("AppointmentId");
+
+                    b.Property<bool>("Discount");
 
                     b.Property<decimal>("Price");
 
@@ -187,20 +189,6 @@ namespace TherapyAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Therapists");
-                });
-
-            modelBuilder.Entity("TherapyAPI.Models.UserSettings", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ClientId");
-
-                    b.Property<string>("PreferLanguage");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("TherapyAPI.Models.Billing", b =>

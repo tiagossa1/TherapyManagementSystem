@@ -66,9 +66,13 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let value" (click)="openDialog(value)">
-      <mat-icon matTooltip="Edit" class="text-primary" style="cursor: pointer;"
-        >edit</mat-icon
+      <mat-icon
+        matTooltip="{{ 'generic.edit' | translate }}"
+        class="text-primary"
+        style="cursor: pointer;"
       >
+        edit
+      </mat-icon>
     </td>
   </ng-container>
 

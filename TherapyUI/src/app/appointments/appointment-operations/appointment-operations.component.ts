@@ -56,8 +56,20 @@ export class AppointmentOperationsComponent implements OnInit {
         id: this.data.id,
         appointmentTypeId: this.data.appointmentTypeId,
         clientId: this.data.clientId,
-        therapistId: this.data.therapistId
+        therapistId: this.data.therapistId,
+        appointmentDate: [null]
       });
+
+      let date = this.data.appointmentDate.toString().split("/");
+      let time = date[2].split(":");
+      let year = time[0].split(" ");
+
+      let timeTransformed: string = year[1] + ":" + time[1] + ":" + time[2]; // hh:mm:ss
+
+      this.appointmentDate.setValue(
+        new Date(Number(year[0]), Number(date[1]) - 1, Number(date[0]))
+      );
+      this.appointmentTime.setValue(timeTransformed);
       return;
     }
 
@@ -126,7 +138,7 @@ export class AppointmentOperationsComponent implements OnInit {
     });
   }
 
-  onSave() {
+  onSave() { debugger
     let datePipe = new DatePipe("en-US");
     let dateTransformed: string = datePipe.transform(
       this.appointmentDate.value,

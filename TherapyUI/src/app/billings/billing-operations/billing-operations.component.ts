@@ -5,10 +5,16 @@ import { TherapistService } from "src/app/services/therapist.service";
 import { Therapist } from "src/app/models/Therapist";
 import { AppointmentsService } from "src/app/services/appointments.service";
 import { Appointment } from "src/app/models/Appointment";
-import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  FormControl
+} from "@angular/forms";
 import { BillingService } from "../services/billing.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { BillingInterface } from "../interfaces/billing";
+import { Discount } from "src/app/models/Discount";
 
 @Component({
   selector: "app-billing-operations",
@@ -16,14 +22,17 @@ import { BillingInterface } from "../interfaces/billing";
   styleUrls: ["./billing-operations.component.scss"]
 })
 export class BillingOperationsComponent implements OnInit {
+  discounts: Discount[] = [];
   clients: Client[];
   therapists: Therapist[];
   appointments: Appointment[] = [];
 
   billingForm: FormGroup;
+  discount: FormControl = new FormControl("");
 
   clientIdSelected: string = null;
   therapistIdSelected: string = null;
+  originalPrice: number = 0;
 
   constructor(
     private clientService: ClientService,
@@ -36,6 +45,12 @@ export class BillingOperationsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.discounts.length == 0) {
+      for (let i = 5; i <= 100; i += 5) {
+        this.discounts.push({ discount: i, toView: i.toString() + "%" });
+      }
+    }
+
     this.getClients();
     this.getTherapists();
 
@@ -59,7 +74,8 @@ export class BillingOperationsComponent implements OnInit {
       appointmentId: ["", Validators.required],
       clientId: ["", Validators.required],
       therapistId: ["", Validators.required],
-      price: [null, Validators.required]
+      price: [null, Validators.required],
+      discount: [false]
     });
   }
 
@@ -141,6 +157,13 @@ export class BillingOperationsComponent implements OnInit {
     });
   }
 
+  selectedDiscount(event) {
+    this.originalPrice = this.billingForm.value.price;
+    this.billingForm.patchValue({
+      price: this.discountPrice(this.originalPrice, event)
+    });
+  }
+
   onSave() {
     if (this.data.editing) {
       console.log(this.billingForm.value);
@@ -160,7 +183,12 @@ export class BillingOperationsComponent implements OnInit {
       return;
     }
 
-    console.log(this.billingForm.value);
+    if (this.discount.value) {
+      this.billingForm.patchValue({
+        discount: true
+      });
+    }
+
     this.billingService.save(this.billingForm.value).subscribe(
       () => {
         this.dialogRef.close();
@@ -173,5 +201,9 @@ export class BillingOperationsComponent implements OnInit {
 
   onClose() {
     this.dialogRef.close();
+  }
+
+  discountPrice(originalPrice: number, discount: number) {
+    return originalPrice - (originalPrice * discount) / 100;
   }
 }

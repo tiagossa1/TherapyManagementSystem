@@ -21,6 +21,7 @@ export class ViewBillingsComponent implements OnInit {
     "appointmentTypeName",
     "therapistName",
     "price",
+    "discount",
     "delete",
     "edit"
   ];
@@ -42,7 +43,6 @@ export class ViewBillingsComponent implements OnInit {
 
   openDialog(value) {
     if (value) {
-      console.log(value);
       const dialogRef = this.dialog.open(BillingOperationsComponent, {
         width: "250px",
         data: {
@@ -51,7 +51,8 @@ export class ViewBillingsComponent implements OnInit {
           clientId: value.appointment.client.id,
           therapistId: value.appointment.therapist.id,
           price: value.price,
-          editing: true
+          editing: true,
+          discount: value.discount
         }
       });
 
@@ -62,11 +63,11 @@ export class ViewBillingsComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(BillingOperationsComponent, {
-      width: "500px",
-      height: "400px"
+      width: "550px",
+      height: "500px"
     });
 
-    dialogRef.afterClosed().subscribe(res => {
+    dialogRef.afterClosed().subscribe(() => {
       this.getBillings();
     });
   }

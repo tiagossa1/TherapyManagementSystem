@@ -49,6 +49,22 @@
     </mat-form-field>
     <br />
     <mat-form-field>
+      <mat-select
+        [formControl]="discount"
+        [disabled]="!billingForm.value.price || data.discount"
+        (selectionChange)="selectedDiscount($event.value)"
+        placeholder=" {{ 'billings.new-billing.discount' | translate }} "
+      >
+        <mat-option
+          *ngFor="let discount of discounts"
+          [value]="discount.discount"
+        >
+          {{ discount.toView }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
       <input
         matInput
         type="number"

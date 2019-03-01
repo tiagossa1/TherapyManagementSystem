@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "src/app/authentication/services/auth.service";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";

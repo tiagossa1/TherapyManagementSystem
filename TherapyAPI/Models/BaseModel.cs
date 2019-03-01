@@ -13,7 +13,6 @@ namespace TherapyAPI.Models
         [Required(ErrorMessage = "Gender is required")]
         public char Gender { get; set; }
 
-        [Required(ErrorMessage = "Mobile Phone is required")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "Invalid")]
         public string MobileNumber { get; set; }
 
