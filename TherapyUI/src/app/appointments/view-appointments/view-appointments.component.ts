@@ -56,7 +56,6 @@ export class ViewAppointmentsComponent implements OnInit {
 
   openDialog(value) {
     if (value) {
-      console.log(value);
       const dialogRef = this.dialog.open(AppointmentOperationsComponent, {
         width: "250px",
         data: {
@@ -65,6 +64,7 @@ export class ViewAppointmentsComponent implements OnInit {
           clientId: value.client.id,
           therapistId: value.therapist.id,
           appointmentDate: value.appointmentDate,
+          appointmentTime: value.appointmentTime,
           editing: true
         }
       });
@@ -86,26 +86,54 @@ export class ViewAppointmentsComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    Swal({
-      title: "Deleting warning",
-      text: "Are you sure you want to delete this billing?",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes"
-    }).then(result => {
-      if (result.value) {
-        this.appointmentsService.delete(id).subscribe(
-          () => {
-            Swal("Deleted!", "Billing deleted!", "success");
-            this.getAppointments();
-          },
-          error => {
-            Swal("Error", error.message, "error");
-          }
-        );
-      }
-    });
+    if (navigator.language.toLowerCase() != "pt-pt") {
+      Swal({
+        title: "Deleting warning",
+        text: "Are you sure you want to delete this appointment?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(result => {
+        if (result.value) {
+          this.appointmentsService.delete(id).subscribe(
+            () => {
+              Swal("Deleted!", "Appoointment deleted!", "success");
+              this.getAppointments();
+            },
+            error => {
+              Swal("Error", error.message, "error");
+            }
+          );
+        }
+      });
+    } else {
+      Swal({
+        title: "Aviso",
+        text: "Pertende eliminar esta consulta?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(result => {
+        if (result.value) {
+          this.appointmentsService.delete(id).subscribe(
+            () => {
+              Swal("Apagada!", "Consulta apagada!", "success");
+              this.getAppointments();
+            },
+            error => {
+              Swal("Error", error.message, "error");
+            }
+          );
+        }
+      });
+    }
+  }
+
+  applyFilter(filterValue: string) {
+    this.appointments.filter = filterValue.trim().toLowerCase();
   }
 }

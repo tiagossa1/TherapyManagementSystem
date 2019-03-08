@@ -32,6 +32,15 @@
         {{ "navbar.viewAppointments" | translate }}
       </button>
     </mat-menu>
+
+    <button class="text-white" mat-button [matMenuTriggerFor]="clientsMenu">
+      {{ "navbar.clients" | translate }}
+    </button>
+    <mat-menu #clientsMenu="matMenu">
+      <button routerLink="clients/view-clients" mat-menu-item>
+        {{ "navbar.viewClients" | translate }}
+      </button>
+    </mat-menu>
   </div>
   <div
     class="text-uppercase text-white d-flex"

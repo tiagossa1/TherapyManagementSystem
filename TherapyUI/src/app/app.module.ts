@@ -23,8 +23,9 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { AlertModule } from "ngx-alerts";
 import { BillingsModule } from "./billings/billings.module";
-import { Title } from '@angular/platform-browser';
+import { Title } from "@angular/platform-browser";
 import { AppointmentsModule } from "./appointments/appointments.module";
+import { ClientsModule } from "./clients/clients.module";
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, HomeComponent],
@@ -42,6 +43,7 @@ import { AppointmentsModule } from "./appointments/appointments.module";
     AuthenticationModule,
     BillingsModule,
     AppointmentsModule,
+    ClientsModule,
     AppRoutes,
     TranslateModule.forRoot({
       loader: {

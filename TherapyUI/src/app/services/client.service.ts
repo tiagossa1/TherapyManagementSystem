@@ -15,4 +15,18 @@ export class ClientService {
   get() {
     return this.http.get<Client[]>(this.apiUrl.endpoint + "/client");
   }
+
+  delete(id: string) {
+    return this.http.delete(this.apiUrl.endpoint + "/client/" + id, {
+      responseType: "text"
+    });
+  }
+
+  edit(id: string, body: any) {
+    return this.http.put(this.apiUrl.endpoint + "/client/" + id, body);
+  }
+
+  save(body: any) {
+    return this.http.post(this.apiUrl.endpoint + "/client", body);
+  }
 }

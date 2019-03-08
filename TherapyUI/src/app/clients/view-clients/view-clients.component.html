@@ -1,0 +1,150 @@
+<body class="ml-3 mr-3 mt-2">
+  <mat-form-field>
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder=" {{ 'generic.search' | translate }} "
+    />
+  </mat-form-field>
+
+  <table
+    style="table-layout: fixed"
+    mat-table
+    [dataSource]="clients"
+    matSort
+    matSortActive="clientName"
+    matSortDirection="asc"
+    class="mat-elevation-z3 w-100"
+  >
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.name" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientDateOfBirth">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.dateOfBirth" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.dateOfBirth | date: "dd/MM/yyyy" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientGender">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.gender" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        <span *ngIf="value.gender.toLowerCase() == 'm' && language == 'pt-pt'">Masculino</span>
+        <span *ngIf="value.gender.toLowerCase() == 'f' && language == 'pt-pt'">Feminino</span>
+        <span *ngIf="value.gender.toLowerCase() == 'm' && language != 'pt-pt'">Male</span>
+        <span *ngIf="value.gender.toLowerCase() == 'f' && language != 'pt-pt'">Female</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientEmail">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.email" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.email }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientMobileNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.mobileNumber" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.mobileNumber }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientAddress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.address" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.address }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientCivilStatus">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.civilStatus" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        <span *ngIf="value.civilStatus.toLowerCase() == 'c' && language == 'pt-pt'">Casado</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 's' && language == 'pt-pt'">Solteiro</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 'd' && language == 'pt-pt'">Divorciada</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 'v' && language == 'pt-pt'">Viúva</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 'm' && language != 'pt-pt'">Married</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 's' && language != 'pt-pt'">Single</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 'd' && language != 'pt-pt'">Divorcied</span>
+        <span *ngIf="value.civilStatus.toLowerCase() == 'w' && language != 'pt-pt'">Widow</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientNif">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.nif" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.nif }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientOccupation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.occupation" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.occupation }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientObservations">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "clients.table.observations" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let value">
+        {{ value.observations }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let value" (click)="onDelete(value.id)">
+        <mat-icon
+          matTooltip=" {{ 'generic.delete' | translate }} "
+          class="text-danger ml-4"
+          style="cursor: pointer;"
+          >delete</mat-icon
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let value" (click)="openDialog(value)">
+        <mat-icon
+          matTooltip="Edit"
+          class="text-primary"
+          style="cursor: pointer;"
+          >edit</mat-icon
+        >
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <button class="mt-3 float-right" mat-raised-button (click)="openDialog()">
+    {{ "clients.button.new-client" | translate }}
+  </button>
+</body>

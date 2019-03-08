@@ -42,10 +42,11 @@ namespace TherapyAPI {
             });
 
             services.AddCors ();
-            services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2)
-                .AddJsonOptions (options => {
-                    options.SerializerSettings.DateFormatString = "dd/MM/yyyy HH:mm:ss";
-                });
+            // services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2)
+            //     .AddJsonOptions (options => {
+            //         options.SerializerSettings.DateFormatString = "dd/MM/yyyy HH:mm:ss";
+            //     });
+            services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2);
             services.AddAutoMapper ();
 
             // configure strongly typed settings objects

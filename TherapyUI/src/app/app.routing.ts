@@ -16,6 +16,10 @@ const routes: Routes = [
     path: "appointments/view-appointments",
     loadChildren: "./appointments/appointments.module#AppointmentsModule"
   },
+  {
+    path: "clients/view-clients",
+    loadChildren: "./clients/clients.module#ClientsModule"
+  },
   { path: "index", component: HomeComponent, canActivate: [AuthGuardService] },
   { path: "", redirectTo: "index", pathMatch: "full" },
   { path: "**", redirectTo: "index", pathMatch: "full" }

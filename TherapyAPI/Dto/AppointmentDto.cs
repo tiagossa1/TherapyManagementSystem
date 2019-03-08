@@ -8,5 +8,6 @@ namespace TherapyAPI.Dto {
         public Client Client { get; set; }
         public Therapist Therapist { get; set; }
         public DateTime AppointmentDate { get; set; }
+        public TimeSpan AppointmentTime { get; set; }
     }
 }

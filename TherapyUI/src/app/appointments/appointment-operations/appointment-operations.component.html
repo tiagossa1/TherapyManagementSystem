@@ -5,11 +5,11 @@
   <h4 *ngIf="!data.editing">
     {{ "appointments.appointment-operations.add.title" | translate }}
   </h4>
+  <br />
 
   <form [formGroup]="appointmentForm">
     <mat-form-field>
       <mat-select
-        [disabled]="data.editing"
         formControlName="clientId"
         (selectionChange)="selectedClient($event.value)"
         placeholder=" {{
@@ -24,7 +24,6 @@
     <br />
     <mat-form-field>
       <mat-select
-        [disabled]="data.editing"
         formControlName="therapistId"
         (selectionChange)="selectedTherapist($event.value)"
         placeholder=" {{
@@ -39,7 +38,6 @@
     <br />
     <mat-form-field>
       <mat-select
-        [disabled]="data.editing"
         formControlName="appointmentTypeId"
         (selectionChange)="selectedAppointmentType($event.value)"
         placeholder=" {{
@@ -60,7 +58,7 @@
       <input
         matInput
         readonly
-        [formControl]="appointmentDate"
+        formControlName="appointmentDate"
         [matDatepicker]="picker"
         placeholder=" {{
           'appointments.appointment-operations.appointment-date' | translate
@@ -73,7 +71,7 @@
 
     <div class="mt-2">
       <input
-        [formControl]="appointmentTime"
+        formControlName="appointmentTime"
         class="border-top-0 border-left-0 border-right-0 timeInput"
         style="width: 180px;"
         placeholder=" {{
@@ -93,15 +91,7 @@
     </div>
     <br />
 
-    <button
-      [disabled]="
-        appointmentForm.invalid &&
-        appointmentDate.invalid &&
-        appointmentTime.invalid
-      "
-      (click)="onSave()"
-      mat-button
-    >
+    <button [disabled]="appointmentForm.invalid" (click)="onSave()" mat-button>
       <ng-container *ngIf="!this.data.editing; else elseTemplate">
         {{ "generic.save" | translate }}
       </ng-container>

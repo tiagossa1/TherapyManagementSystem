@@ -4,5 +4,6 @@ export interface AppointmentInterface {
     clientId: string;
     therapistId: string;
     appointmentDate: Date;
+    appointmentTime: string;
     editing: boolean;
 }

@@ -1,0 +1,138 @@
+<body class="mt-2 mb-2 ml-2 mr-2 text-center">
+  <h4 *ngIf="data.editing">{{ "clients.edit-client.title" | translate }}</h4>
+  <h4 *ngIf="!data.editing">{{ "clients.new-client.title" | translate }}</h4>
+
+  <form [formGroup]="clientForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        placeholder=" {{ 'clients.new-client.name' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        minlength="9"
+        maxlength="9"
+        onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+        formControlName="mobileNumber"
+        placeholder=" {{ 'clients.new-client.mobileNumber' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="address"
+        placeholder=" {{ 'clients.new-client.address' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <mat-select
+        placeholder=" {{ 'clients.table.civilStatus' | translate }} "
+        (selectionChange)="selectedCivilStatus($event.value)"
+        formControlName="civilStatus"
+      >
+        <mat-option
+          *ngFor="let civilstatus of civilStatus"
+          [value]="civilstatus.value"
+        >
+          {{ civilstatus.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field style="width: 180px !important">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        readonly="true"
+        formControlName="dateOfBirth"
+        placeholder=" {{ 'clients.new-client.dateOfBirth' | translate }} "
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        minlength="9"
+        maxlength="9"
+        onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+        formControlName="nif"
+        placeholder=" {{ 'clients.new-client.nif' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="occupation"
+        placeholder=" {{ 'clients.new-client.occupation' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <textarea
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="7"
+        cdkAutosizeMaxRows="12"
+        placeholder=" {{ 'clients.new-client.observations' | translate }} "
+        formControlName="observations"
+      ></textarea>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <mat-select
+        placeholder=" {{ 'clients.table.gender' | translate }} "
+        (selectionChange)="selectedGender($event.value)"
+        formControlName="gender"
+      >
+        <mat-option *ngFor="let gender of genders" [value]="gender.value">
+          {{ gender.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        formControlName="email"
+        placeholder=" {{ 'clients.new-client.email' | translate }} "
+      />
+    </mat-form-field>
+    <br />
+
+    <button [disabled]="clientForm.invalid" (click)="onSave()" mat-button>
+      <ng-container *ngIf="!this.data.editing; else elseTemplate">
+        {{ "generic.save" | translate }}
+      </ng-container>
+      <ng-template #elseTemplate>
+        {{ "generic.edit" | translate }}
+      </ng-template>
+    </button>
+    <button (click)="onClose()" color="warn" mat-button>
+      {{ "generic.close" | translate }}
+    </button>
+  </form>
+</body>

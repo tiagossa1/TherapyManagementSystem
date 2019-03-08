@@ -23,6 +23,8 @@ namespace TherapyAPI.Migrations
 
                     b.Property<DateTime>("AppointmentDate");
 
+                    b.Property<TimeSpan>("AppointmentTime");
+
                     b.Property<Guid>("AppointmentTypeId");
 
                     b.Property<Guid>("ClientId");
@@ -30,6 +32,12 @@ namespace TherapyAPI.Migrations
                     b.Property<Guid>("TherapistId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentTypeId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("TherapistId");
 
                     b.ToTable("Appointments");
                 });
@@ -52,55 +60,55 @@ namespace TherapyAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9e6dcae1-f0f4-4fb2-953e-09c6f6760270"),
+                            Id = new Guid("ba1a5585-f976-4016-af8b-000ebfede7bb"),
                             Code = "FLORAIS",
                             Name = "Florais"
                         },
                         new
                         {
-                            Id = new Guid("5310e626-e8bf-4ed9-bb5c-da2a0d32f00c"),
+                            Id = new Guid("601d8a79-759d-4227-af7c-93165ef10bc5"),
                             Code = "ACUPUNTURA",
                             Name = "Acupuntura"
                         },
                         new
                         {
-                            Id = new Guid("cb9bc9ad-8c7b-419a-9b42-f13307dd459c"),
+                            Id = new Guid("ba8629cb-0c4d-4143-9380-04387883a6e3"),
                             Code = "CROMOTERAPIA",
                             Name = "Cromoterapia"
                         },
                         new
                         {
-                            Id = new Guid("97f79615-6ca9-4c82-9655-8cc952eb4aa3"),
+                            Id = new Guid("6b0a9cf8-3ada-4b5b-b66b-c042ecbde5c2"),
                             Code = "MASSAGEM",
                             Name = "Massagem"
                         },
                         new
                         {
-                            Id = new Guid("b35a10c3-0d43-4dc5-b1d4-a591fdd36b94"),
+                            Id = new Guid("dd2d567b-0fba-4164-9cd4-d8399763e82c"),
                             Code = "TERAPIACOMFLORES",
                             Name = "Terapia Com Flores"
                         },
                         new
                         {
-                            Id = new Guid("bec6ac16-7932-48dc-903f-4f6512f1f1fb"),
+                            Id = new Guid("7fac5816-5eb6-4eb2-990d-62f55ac2f9ae"),
                             Code = "FITOTERAPIA",
                             Name = "Fitoterapia"
                         },
                         new
                         {
-                            Id = new Guid("7d593a97-370c-424b-a6d2-7a783841ba6a"),
+                            Id = new Guid("189097c1-65e3-4079-bc78-45df0e219fb9"),
                             Code = "REFLEXOLOGIA",
                             Name = "Reflexologia"
                         },
                         new
                         {
-                            Id = new Guid("ca3dac30-56b5-4a2e-9549-095d007fa436"),
+                            Id = new Guid("e25193ca-760c-49d5-8b4e-0c71d90c2fdc"),
                             Code = "SHIATSU",
                             Name = "Shiatsu"
                         },
                         new
                         {
-                            Id = new Guid("50593c90-2d39-4acc-bd78-a9804ef32237"),
+                            Id = new Guid("4a002c74-7f63-48bf-9883-4a6d78b353ef"),
                             Code = "REIKI",
                             Name = "Reiki"
                         });
@@ -141,7 +149,6 @@ namespace TherapyAPI.Migrations
                     b.Property<char>("Gender");
 
                     b.Property<string>("MobileNumber")
-                        .IsRequired()
                         .HasMaxLength(9);
 
                     b.Property<string>("NIF")
@@ -172,7 +179,6 @@ namespace TherapyAPI.Migrations
                     b.Property<char>("Gender");
 
                     b.Property<string>("MobileNumber")
-                        .IsRequired()
                         .HasMaxLength(9);
 
                     b.Property<string>("Name")
@@ -187,6 +193,24 @@ namespace TherapyAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Therapists");
+                });
+
+            modelBuilder.Entity("TherapyAPI.Models.Appointment", b =>
+                {
+                    b.HasOne("TherapyAPI.Models.AppointmentType", "AppointmentType")
+                        .WithMany()
+                        .HasForeignKey("AppointmentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TherapyAPI.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TherapyAPI.Models.Therapist", "Therapist")
+                        .WithMany()
+                        .HasForeignKey("TherapistId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TherapyAPI.Models.Billing", b =>

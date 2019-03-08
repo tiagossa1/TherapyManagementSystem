@@ -15,7 +15,6 @@ import { AppointmentTypeService } from "src/app/services/appointment-type.servic
 import { AppointmentInterface } from "../interfaces/appointment";
 import { AppointmentsService } from "src/app/services/appointments.service";
 import { NgxMaterialTimepickerTheme } from "ngx-material-timepicker";
-import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-appointment-operations",
@@ -23,8 +22,8 @@ import { DatePipe } from "@angular/common";
   styleUrls: ["./appointment-operations.component.scss"]
 })
 export class AppointmentOperationsComponent implements OnInit {
-  appointmentDate: FormControl = new FormControl("", Validators.required);
-  appointmentTime: FormControl = new FormControl("", Validators.required);
+  // appointmentDate: FormControl = new FormControl(null, Validators.required);
+  // appointmentTime: FormControl = new FormControl(null, Validators.required);
 
   clients: Client[];
   therapists: Therapist[];
@@ -54,30 +53,24 @@ export class AppointmentOperationsComponent implements OnInit {
     if (this.data.editing) {
       this.appointmentForm = this.formBuilder.group({
         id: this.data.id,
-        appointmentTypeId: this.data.appointmentTypeId,
-        clientId: this.data.clientId,
-        therapistId: this.data.therapistId,
-        appointmentDate: [null]
+        appointmentTypeId: {
+          value: this.data.appointmentTypeId,
+          disabled: true
+        },
+        clientId: { value: this.data.clientId, disabled: true },
+        therapistId: { value: this.data.therapistId, disabled: true },
+        appointmentDate: this.data.appointmentDate,
+        appointmentTime: this.data.appointmentTime
       });
-
-      let date = this.data.appointmentDate.toString().split("/");
-      let time = date[2].split(":");
-      let year = time[0].split(" ");
-
-      let timeTransformed: string = year[1] + ":" + time[1] + ":" + time[2]; // hh:mm:ss
-
-      this.appointmentDate.setValue(
-        new Date(Number(year[0]), Number(date[1]) - 1, Number(date[0]))
-      );
-      this.appointmentTime.setValue(timeTransformed);
       return;
     }
 
     this.appointmentForm = this.formBuilder.group({
-      appointmentTypeId: ["", Validators.required],
-      clientId: ["", Validators.required],
-      therapistId: ["", Validators.required],
-      appointmentDate: [new Date()]
+      appointmentTypeId: [null, Validators.required],
+      clientId: [null, Validators.required],
+      therapistId: [null, Validators.required],
+      appointmentDate: [null, Validators.required],
+      appointmentTime: [null, Validators.required]
     });
   }
 
@@ -138,24 +131,8 @@ export class AppointmentOperationsComponent implements OnInit {
     });
   }
 
-  onSave() { debugger
-    let datePipe = new DatePipe("en-US");
-    let dateTransformed: string = datePipe.transform(
-      this.appointmentDate.value,
-      "yyyy/MM/dd"
-    );
-    // 'dd/MM/yyyy'
-
-    if (this.appointmentDate.valid && this.appointmentTime.valid) {
-      this.appointmentForm.patchValue({
-        appointmentDate: dateTransformed + " " + this.appointmentTime.value
-      });
-    }
-
-    console.log(this.appointmentForm.value);
-
+  onSave() {
     if (this.data.editing) {
-      console.log(this.appointmentForm.value);
       this.appointmentService
         .edit(this.appointmentForm.value.id, this.appointmentForm.value)
         .subscribe(

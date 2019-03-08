@@ -15,6 +15,7 @@ import { BillingService } from "../services/billing.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { BillingInterface } from "../interfaces/billing";
 import { Discount } from "src/app/models/Discount";
+import * as jwt_decode from "jwt-decode";
 
 @Component({
   selector: "app-billing-operations",
@@ -24,11 +25,11 @@ import { Discount } from "src/app/models/Discount";
 export class BillingOperationsComponent implements OnInit {
   discounts: Discount[] = [];
   clients: Client[];
-  therapists: Therapist[];
+  therapists: Therapist[] = [];
   appointments: Appointment[] = [];
 
   billingForm: FormGroup;
-  discount: FormControl = new FormControl("");
+  discount: FormControl = new FormControl(null);
 
   clientIdSelected: string = null;
   therapistIdSelected: string = null;
@@ -71,9 +72,9 @@ export class BillingOperationsComponent implements OnInit {
     }
 
     this.billingForm = this.formBuilder.group({
-      appointmentId: ["", Validators.required],
-      clientId: ["", Validators.required],
-      therapistId: ["", Validators.required],
+      appointmentId: [null, Validators.required],
+      clientId: [null, Validators.required],
+      therapistId: [null, Validators.required],
       price: [null, Validators.required],
       discount: [false]
     });
@@ -86,8 +87,17 @@ export class BillingOperationsComponent implements OnInit {
   }
 
   getTherapists() {
+    let local = JSON.parse(localStorage.getItem("currentUser"));
+    let token = local && local.token ? jwt_decode(local.token) : null;
+
     this.therapistService.get().subscribe(data => {
-      this.therapists = data;
+      if (token) {
+        data.forEach(element => {
+          if (element.id == token.nameid) {
+            this.therapists.push(element);
+          }
+        });
+      }
     });
   }
 

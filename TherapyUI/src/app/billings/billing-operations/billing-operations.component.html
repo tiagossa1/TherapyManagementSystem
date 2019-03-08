@@ -43,7 +43,8 @@
           *ngFor="let appointment of appointments"
           [value]="appointment.id"
         >
-          {{ appointment.appointmentDate }}
+          {{ appointment.appointmentDate | date: "dd/MM/yyyy" }} -
+          {{ appointment.appointmentType.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

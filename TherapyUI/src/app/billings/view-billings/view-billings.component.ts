@@ -73,26 +73,54 @@ export class ViewBillingsComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    Swal({
-      title: "Deleting warning",
-      text: "Are you sure you want to delete this billing?",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes"
-    }).then(result => {
-      if (result.value) {
-        this.billingService.delete(id).subscribe(
-          () => {
-            Swal("Deleted!", "Billing deleted!", "success");
-            this.getBillings();
-          },
-          error => {
-            Swal("Error", error.message, "error");
-          }
-        );
-      }
-    });
+    if (navigator.language.toLowerCase() != "pt-pt") {
+      Swal({
+        title: "Deleting warning",
+        text: "Are you sure you want to delete this billing?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(result => {
+        if (result.value) {
+          this.billingService.delete(id).subscribe(
+            () => {
+              Swal("Deleted!", "Billing deleted!", "success");
+              this.getBillings();
+            },
+            error => {
+              Swal("Error", error.message, "error");
+            }
+          );
+        }
+      });
+    } else {
+      Swal({
+        title: "Aviso",
+        text: "Pertende eliminar esta fatura?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(result => {
+        if (result.value) {
+          this.billingService.delete(id).subscribe(
+            () => {
+              Swal("Apagada!", "Fatura apagada!", "success");
+              this.getBillings();
+            },
+            error => {
+              Swal("Error", error.message, "error");
+            }
+          );
+        }
+      });
+    }
+  }
+
+  applyFilter(filterValue: string) {
+    this.billings.filter = filterValue.trim().toLowerCase();
   }
 }
