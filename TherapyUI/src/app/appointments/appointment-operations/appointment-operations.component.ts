@@ -2,12 +2,7 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { AppointmentType } from "src/app/models/AppointmentType";
 import { Client } from "src/app/models/Client";
 import { Therapist } from "src/app/models/Therapist";
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ClientService } from "src/app/services/client.service";
 import { TherapistService } from "src/app/services/therapist.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
@@ -15,6 +10,7 @@ import { AppointmentTypeService } from "src/app/services/appointment-type.servic
 import { AppointmentInterface } from "../interfaces/appointment";
 import { AppointmentsService } from "src/app/services/appointments.service";
 import { NgxMaterialTimepickerTheme } from "ngx-material-timepicker";
+import * as jwt_decode from "jwt-decode";
 
 @Component({
   selector: "app-appointment-operations",
@@ -22,11 +18,8 @@ import { NgxMaterialTimepickerTheme } from "ngx-material-timepicker";
   styleUrls: ["./appointment-operations.component.scss"]
 })
 export class AppointmentOperationsComponent implements OnInit {
-  // appointmentDate: FormControl = new FormControl(null, Validators.required);
-  // appointmentTime: FormControl = new FormControl(null, Validators.required);
-
   clients: Client[];
-  therapists: Therapist[];
+  therapists: Therapist[] = [];
   appointmentTypes: AppointmentType[];
 
   appointmentForm: FormGroup;
@@ -102,8 +95,11 @@ export class AppointmentOperationsComponent implements OnInit {
   }
 
   getTherapists() {
+    let local = JSON.parse(localStorage.getItem("currentUser"));
+    let token = local ? jwt_decode(local.token) : null;
+
     this.therapistService.get().subscribe(data => {
-      this.therapists = data;
+      this.therapists.push(data.find(x => x.id == token.nameid));
     });
   }
 

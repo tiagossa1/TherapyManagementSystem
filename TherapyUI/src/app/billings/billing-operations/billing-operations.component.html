@@ -5,7 +5,6 @@
   <form [formGroup]="billingForm">
     <mat-form-field>
       <mat-select
-        [disabled]="data.editing"
         formControlName="clientId"
         (selectionChange)="selectedClient($event.value)"
         placeholder=" {{ 'billings.new-billing.client' | translate }} "
@@ -18,7 +17,6 @@
     <br />
     <mat-form-field>
       <mat-select
-        [disabled]="data.editing"
         formControlName="therapistId"
         (selectionChange)="selectedTherapist($event.value)"
         placeholder=" {{ 'billings.new-billing.therapist' | translate }} "
@@ -31,10 +29,6 @@
     <br />
     <mat-form-field>
       <mat-select
-        [disabled]="
-          (!data.editing && (!clientIdSelected && !therapistIdSelected)) ||
-          this.appointments.length == 0
-        "
         formControlName="appointmentId"
         (selectionChange)="selectedAppointments($event.value)"
         placeholder=" {{ 'billings.new-billing.appointment' | translate }} "

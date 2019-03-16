@@ -63,9 +63,15 @@ export class BillingOperationsComponent implements OnInit {
       this.getAppointments();
       this.billingForm = this.formBuilder.group({
         id: this.data.id,
-        appointmentId: this.data.appointmentId,
-        clientId: this.data.clientId,
-        therapistId: this.data.therapistId,
+        appointmentId: {
+          value: this.data.appointmentId,
+          disabled:
+            (!this.data.editing &&
+              (!this.clientIdSelected && !this.therapistIdSelected)) ||
+            this.appointments.length == 0
+        },
+        clientId: { value: this.data.clientId, disabled: true },
+        therapistId: { value: this.data.therapistId, disabled: true },
         price: this.data.price
       });
       return;

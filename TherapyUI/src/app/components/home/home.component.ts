@@ -36,22 +36,19 @@ export class HomeComponent implements OnInit {
 
     this.token = this.local ? jwt_decode(this.local.token) : null;
     this.getAppointments();
-
-    // if(!this.authService.isAuthenticated()) {
-    //   this.router.navigate(["index"]);
-    // }
   }
 
   getAppointments() {
     let day: Date = new Date();
     this.appointmentsService.get().subscribe((data: Appointment[]) => {
       data.forEach(element => {
-        let appointmentDate = element.appointmentDate.toString().split("/");
+        let appointmentDate = element.appointmentDate.toString().split("-");
 
         if (
           element.therapist.id == this.token.nameid &&
-          appointmentDate[0] == day.getDate().toString() &&
-          appointmentDate[1] == "0" + (day.getMonth() + 1)
+          appointmentDate[2].toString().includes(day.getDate().toString()) &&
+          appointmentDate[1] == "0" + (day.getMonth() + 1) &&
+          appointmentDate[0] == day.getFullYear().toString()
         ) {
           this.appointments.push(element);
         }
