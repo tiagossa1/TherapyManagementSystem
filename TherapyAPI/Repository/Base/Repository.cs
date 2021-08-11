@@ -17,17 +17,6 @@ namespace TherapyAPI.Repository.Base
 
         public async Task<IEnumerable<T>> GetAllAsync(List<string> includes)
         {
-            //var query = Context.Set<T>().AsQueryable();
-
-            //if (includes != null)
-            //{
-            //    foreach (var include in includes)
-            //    {
-            //        if (!string.IsNullOrWhiteSpace(include))
-            //            query = query.Include(include);
-            //    }
-            //}
-
             return await Context.Set<T>().ToListAsync().ConfigureAwait(false);
         }
 
@@ -35,23 +24,23 @@ namespace TherapyAPI.Repository.Base
         {
             return await Context.Set<T>().FindAsync(Id).ConfigureAwait(false);
         }
-        public void Create(T entity)
+        public Task<int> Create(T entity)
         {
             Context.Set<T>().Add(entity);
-            Context.SaveChangesAsync();
+            return Context.SaveChangesAsync();
         }
 
-        public void Delete(Guid Id)
+        public Task<int> Delete(Guid Id)
         {
             T entity = Context.Set<T>().Find(Id);
             Context.Set<T>().Remove(entity);
-            Context.SaveChanges();
+            return Context.SaveChangesAsync();
         }
 
-        public void Update(T entity)
+        public Task<int> Update(T entity)
         {
             Context.Set<T>().Update(entity);
-            Context.SaveChanges();
+            return Context.SaveChangesAsync();
         }
     }
 }
