@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using System.Threading.Tasks;
 using TherapyAPI.Dto;
 using TherapyAPI.Models;
 using TherapyAPI.Repository.Base.Interface;
-using TherapyAPI.Validators;
 
 namespace TherapyAPI.Controllers
 {
@@ -30,8 +28,9 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(Client client)
+        public async Task<IActionResult> Register(ClientDto clientDto)
         {
+            var client = _mapper.Map<Client>(clientDto);
             var validationResult = _validator.Validate(client);
 
             if (!ModelState.IsValid)
@@ -45,20 +44,25 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _clientRepository.Create(client);
-            return Ok();
+            int result = await _clientRepository.Create(client).ConfigureAwait(false);
+
+            if (result == 1)
+                return Created("~/api/client/register", new { id = clientDto.Id });
+
+            return StatusCode(500, "There was a problem trying to create client.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ClientDto>> Get()
+        public async Task<IActionResult> Get()
         {
             var clients = await _clientRepository.GetAllAsync().ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<ClientDto>>(clients);
+            return Ok(_mapper.Map<List<ClientDto>>(clients.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(Client client)
+        public async Task<IActionResult> Edit(ClientDto clientDto)
         {
+            var client = _mapper.Map<Client>(clientDto);
             var validationResult = _validator.Validate(client);
 
             if (!ModelState.IsValid)
@@ -72,26 +76,35 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _clientRepository.Update(client);
-            return Ok();
+            int result = await _clientRepository.Update(client).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Client updated.");
+
+            return StatusCode(500, "There was a problem trying to update client.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errors);
             }
 
-            var client = _clientRepository.GetById(id);
+            var client = await _clientRepository.GetById(id).ConfigureAwait(false);
             if (client == null)
             {
-                return NotFound("Wrong id.");
+                return NotFound($"There is not client with ID {id}.");
             }
 
-            _clientRepository.Delete(id);
-            return Ok("User deleted.");
+            int result = await _clientRepository.Delete(id).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Client deleted.");
+
+            return StatusCode(500, "There was a problem trying to delete client.");
         }
     }
 }

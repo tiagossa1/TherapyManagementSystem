@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 using TherapyAPI.Dto;
 using TherapyAPI.Models;
 using TherapyAPI.Repository.Base.Interface;
-using TherapyAPI.Validators;
 
 namespace TherapyAPI.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentController : ControllerBase
@@ -29,8 +27,9 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Appointment appointment)
+        public async Task<IActionResult> Create(AppointmentDto appointmentDto)
         {
+            var appointment = _mapper.Map<Appointment>(appointmentDto);
             var validationResult = _validator.Validate(appointment);
 
             if (!ModelState.IsValid)
@@ -44,30 +43,25 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _appointmentRepository.Create(appointment);
-            return Ok();
+            int result = await _appointmentRepository.Create(appointment).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Appointment created.");
+
+            return BadRequest("There was an error trying to create the appointment.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AppointmentDto>> Get()
+        public async Task<IActionResult> Get()
         {
-            //var includes = new List<string>() { "AppointmentType" };
-
             var appointments = await _appointmentRepository.GetAllAsync().ConfigureAwait(false);
-
-            //foreach (var item in appointments)
-            //{
-            //    item.AppointmentType = await _appointmentTypeRepository.GetById(item.AppointmentType.Id).ConfigureAwait(false);
-            //    item.Client = await _clientRepository.GetById(item.Client.Id).ConfigureAwait(false);
-            //    item.Therapist = await _therapistRepository.GetById(item.Therapist.Id).ConfigureAwait(false);
-            //}
-
-            return _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+            return Ok(_mapper.Map<List<AppointmentDto>>(appointments.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(Appointment appointment)
+        public async Task<IActionResult> Edit(AppointmentDto appointmentDto)
         {
+            var appointment = _mapper.Map<Appointment>(appointmentDto);
             var validationResult = _validator.Validate(appointment);
 
             if (!ModelState.IsValid)
@@ -81,26 +75,35 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _appointmentRepository.Update(appointment);
-            return Ok();
+            int result = await _appointmentRepository.Update(appointment).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Appointment updated.");
+
+            return BadRequest("There was an error trying to update the appointment.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errors);
             }
 
-            var appointment = _appointmentRepository.GetById(Id);
+            var appointment = await _appointmentRepository.GetById(id).ConfigureAwait(false);
             if (appointment == null)
             {
-                return NotFound("Invalid ID.");
+                return NotFound($"There was no appointment with ID {id}.");
             }
 
-            _appointmentRepository.Delete(Id);
-            return Ok("Appointment deleted.");
+            int result = await _appointmentRepository.Delete(id).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Appointment deleted.");
+
+            return BadRequest("There was an error trying to delete the appointment.");
         }
     }
 }

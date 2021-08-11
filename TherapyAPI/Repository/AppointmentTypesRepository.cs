@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 using TherapyAPI.Context;
 using TherapyAPI.Models;
 using TherapyAPI.Repository.Base;
@@ -8,14 +10,13 @@ namespace TherapyAPI.Repository
 {
     public class AppointmentTypeRepository : Repository<AppointmentType>, IAppointmentTypeRepository
     {
-        public AppointmentTypeRepository(RepositoryContext RepositoryContext) : base(RepositoryContext)
+        public AppointmentTypeRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
 
-        public bool GetByName(string name)
+        public Task<bool> AnyByName(string name)
         {
-            var searchResult = Context.AppointmentType.FirstOrDefault(x => x.Name == name);
-            return searchResult != null;
+            return Context.AppointmentType.AnyAsync(x => x.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

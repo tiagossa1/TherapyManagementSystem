@@ -1,7 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,7 +11,6 @@ using TherapyAPI.Repository.Base.Interface;
 
 namespace TherapyAPI.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BillingController : ControllerBase
@@ -29,8 +26,9 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Billing billing)
+        public async Task<IActionResult> Create(BillingDto billingDto)
         {
+            var billing = _mapper.Map<Billing>(billingDto);
             var validationResult = _validator.Validate(billing);
 
             if (!ModelState.IsValid)
@@ -44,29 +42,25 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _billingRepository.Create(billing);
-            return new ObjectResult(billing) { StatusCode = StatusCodes.Status201Created };
+            int result = await _billingRepository.Create(billing).ConfigureAwait(false);
+
+            if (result == 1)
+                return Created($"~/api/billing/{billing.Id}", new { id = billing.Id });
+
+            return BadRequest("There was an error creating billing.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BillingDto>> Get()
+        public async Task<IActionResult> Get()
         {
             var billings = await _billingRepository.GetAllAsync().ConfigureAwait(false);
-
-            //foreach (var item in billings)
-            //{
-            //    item.Appointment = await _appointmentRepository.GetById(item.Appointment.Id).ConfigureAwait(false);
-            //    item.Appointment.Client = await _clientRepository.GetById(item.Appointment.Client.Id).ConfigureAwait(false);
-            //    item.Appointment.Therapist = await _therapistRepository.GetById(item.Appointment.Therapist.Id).ConfigureAwait(false);
-            //    item.Appointment.AppointmentType = await _appointmentTypeRepository.GetById(item.Appointment.AppointmentType.Id).ConfigureAwait(false);
-            //}
-
-            return _mapper.Map<IEnumerable<BillingDto>>(billings);
+            return Ok(_mapper.Map<List<BillingDto>>(billings.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(Billing billing)
+        public async Task<IActionResult> Edit(BillingDto billingDto)
         {
+            var billing = _mapper.Map<Billing>(billingDto);
             var validationResult = _validator.Validate(billing);
 
             if (!ModelState.IsValid)
@@ -80,26 +74,35 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _billingRepository.Update(billing);
-            return Ok();
+            int result = await _billingRepository.Update(billing).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Billing updated.");
+
+            return BadRequest("There was an error updating billing.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errors);
             }
 
-            var billing = _billingRepository.GetById(Id);
+            var billing = await _billingRepository.GetById(id).ConfigureAwait(false);
             if (billing == null)
             {
-                return NotFound("Wrong id.");
+                return NotFound($"There is no billing with ID {id}.");
             }
 
-            _billingRepository.Delete(Id);
-            return Ok("Billing deleted.");
+            int result = await _billingRepository.Delete(id).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Billing deleted.");
+
+            return BadRequest("There was an error trying to delete the billing.");
         }
     }
 }

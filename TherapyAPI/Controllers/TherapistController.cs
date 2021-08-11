@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,6 @@ using TherapyAPI.Repository.Base.Interface;
 
 namespace TherapyAPI.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TherapistController : ControllerBase
@@ -28,36 +26,6 @@ namespace TherapyAPI.Controllers
             _validator = validator;
         }
 
-        //[AllowAnonymous]
-        //[HttpPost ("authenticate")]
-        //public IActionResult Authenticate (Authentication authenticationObj) {
-        //    var user = _therapistRepository.Authenticate (authenticationObj.Username, authenticationObj.Password);
-        //    if (user == null)
-        //        return BadRequest ("Username or password is incorrect.");
-
-        //    var tokenHandler = new JwtSecurityTokenHandler ();
-        //    var key = Encoding.ASCII.GetBytes (_appSettings.Secret);
-        //    var tokenDescriptor = new SecurityTokenDescriptor {
-        //        Subject = new ClaimsIdentity (new Claim[] {
-        //        new Claim (ClaimTypes.Name, user.Name.ToString ()),
-        //        new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ())
-        //        }),
-
-        //        Expires = DateTime.UtcNow.AddHours (1),
-        //        SigningCredentials = new SigningCredentials (new SymmetricSecurityKey (key), SecurityAlgorithms.HmacSha256Signature)
-        //    };
-        //    var token = tokenHandler.CreateToken (tokenDescriptor);
-        //    var tokenString = tokenHandler.WriteToken (token);
-
-        //    // return basic user info (without password) and token to store client side
-        //    return Ok (new {
-        //        Id = user.Id,
-        //            Username = user.Username,
-        //            Token = tokenString
-        //    });
-        //}
-
-        [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register(TherapistDto therapistDto)
         {
@@ -75,20 +43,25 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _therapistRepository.Create(therapist, therapistDto.Password);
-            return Ok();
+            Therapist result = _therapistRepository.Create(therapist, therapistDto.Password);
+
+            if (result != null)
+                return Ok("Therapist created.");
+
+            return StatusCode(500, "There was a problem trying to create therapist.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TherapistDto>> Get()
+        public async Task<IActionResult> Get()
         {
             var therapists = await _therapistRepository.GetAllAsync().ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<TherapistDto>>(therapists);
+            return Ok(_mapper.Map<List<TherapistDto>>(therapists.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(Therapist therapist)
+        public async Task<IActionResult> Edit(TherapistDto therapistDto)
         {
+            var therapist = _mapper.Map<Therapist>(therapistDto);
             var validationResult = _validator.Validate(therapist);
 
             if (!ModelState.IsValid)
@@ -102,26 +75,35 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _therapistRepository.Update(therapist);
-            return Ok();
+            int result = await _therapistRepository.Update(therapist).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Therapist updated.");
+
+            return StatusCode(500, "There was a problem trying to update therapist.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errors);
             }
 
-            var therapist = _therapistRepository.GetById(Id);
+            var therapist = await _therapistRepository.GetById(id).ConfigureAwait(false);
             if (therapist == null)
             {
-                return NotFound("Wrong id.");
+                return NotFound($"There was no therapist with ID {id}.");
             }
 
-            _therapistRepository.Delete(Id);
-            return Ok("Therapist deleted.");
+            int result = await _therapistRepository.Delete(id).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Therapist deleted.");
+
+            return StatusCode(500, "There was a problem trying to delete therapist.");
         }
     }
 }

@@ -27,8 +27,9 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CivilStatus civilStatus)
+        public async Task<IActionResult> Create(CivilStatusDto civilStatusDto)
         {
+            var civilStatus = _mapper.Map<CivilStatus>(civilStatusDto);
             var validationResult = _validator.Validate(civilStatus);
 
             if (!ModelState.IsValid)
@@ -42,19 +43,23 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _civilStatusRepository.Create(civilStatus);
-            return Ok();
+            int result = await _civilStatusRepository.Create(civilStatus).ConfigureAwait(false);
+
+            if (result == 1)
+                return Created($"~/api/civilstatus/{civilStatusDto.Id}", new { id = civilStatus.Id });
+
+            return StatusCode(500, "There was a problem trying to create civil status.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CivilStatusDto>> Get()
+        public async Task<IActionResult> Get()
         {
             var civilStatuses = await _civilStatusRepository.GetAllAsync().ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<CivilStatusDto>>(civilStatuses);
+            return Ok(_mapper.Map<List<CivilStatusDto>>(civilStatuses.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(CivilStatus civilStatus)
+        public async Task<IActionResult> Edit(CivilStatus civilStatus)
         {
             var validationResult = _validator.Validate(civilStatus);
 
@@ -69,26 +74,34 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _civilStatusRepository.Update(civilStatus);
-            return Ok();
+            int result = await _civilStatusRepository.Update(civilStatus).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Civil Status edited.");
+
+            return StatusCode(500, "There was a problem trying to update civil status.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid Id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("The model that you sent is invalid.");
             }
 
-            var appointment = _civilStatusRepository.GetById(Id);
+            var appointment = await _civilStatusRepository.GetById(Id).ConfigureAwait(false);
             if (appointment == null)
             {
                 return NotFound("Invalid ID.");
             }
 
-            _civilStatusRepository.Delete(Id);
-            return Ok("Civil status deleted.");
+            int result = await _civilStatusRepository.Delete(Id).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Civil status deleted.");
+
+            return StatusCode(500, "There was a problem trying to delete civil status.");
         }
     }
 }

@@ -27,8 +27,9 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Gender gender)
+        public async Task<IActionResult> Create(GenderDto genderDto)
         {
+            var gender = _mapper.Map<Gender>(genderDto);
             var validationResult = _validator.Validate(gender);
 
             if (!ModelState.IsValid)
@@ -42,23 +43,28 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _genderRepository.Create(gender);
-            return Ok();
+            int result = await _genderRepository.Create(gender).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Gender created.");
+
+            return StatusCode(500, "There was a problem trying to create gender.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<GenderDto>> Get()
+        public async Task<IActionResult> Get()
         {
             var genders = await _genderRepository.GetAllAsync().ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<GenderDto>>(genders);
+            return Ok(_mapper.Map<IEnumerable<GenderDto>>(genders.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(Gender gender)
+        public async Task<IActionResult> Edit(GenderDto genderDto)
         {
+            var gender = _mapper.Map<Gender>(genderDto);
             var validationResult = _validator.Validate(gender);
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
                 return BadRequest(errors);
@@ -69,26 +75,35 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _genderRepository.Update(gender);
-            return Ok();
+            int result = await _genderRepository.Update(gender).ConfigureAwait(false);
+
+            if (result == 1)
+                return Ok("Gender updated.");
+
+            return StatusCode(500, "There was a problem trying to update gender.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errors);
             }
 
-            var appointment = _genderRepository.GetById(Id);
+            var appointment = await _genderRepository.GetById(id).ConfigureAwait(false);
             if (appointment == null)
             {
-                return NotFound("Invalid ID.");
+                return NotFound($"There is not gender with ID {id}.");
             }
 
-            _genderRepository.Delete(Id);
-            return Ok("Gender deleted.");
+            int result = await _genderRepository.Delete(id).ConfigureAwait(false);
+
+            if(result == 1)
+                return Ok("Gender deleted.");
+
+            return StatusCode(500, "There was a problem trying to delete gender.");
         }
     }
 }

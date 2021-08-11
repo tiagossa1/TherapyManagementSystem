@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 using TherapyAPI.Dto;
 using TherapyAPI.Models;
 using TherapyAPI.Repository.Base.Interface;
-using TherapyAPI.Validators;
 
 namespace TherapyAPI.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentTypeController : ControllerBase
@@ -29,8 +27,9 @@ namespace TherapyAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AppointmentType appointmentType)
+        public async Task<IActionResult> Create(AppointmentTypeDto appointmentTypeDto)
         {
+            var appointmentType = _mapper.Map<AppointmentType>(appointmentTypeDto);
             var validationResult = _validator.Validate(appointmentType);
 
             if (!ModelState.IsValid)
@@ -44,27 +43,26 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            var name = appointmentType.Name.Trim().ToLower();
-
-            if (_appointmentTypeRepository.GetByName(name))
+            if (await _appointmentTypeRepository.AnyByName(appointmentType.Name).ConfigureAwait(false))
             {
                 return BadRequest("This appointment type already exists.");
             }
 
-            _appointmentTypeRepository.Create(appointmentType);
-            return Ok();
+            await _appointmentTypeRepository.Create(appointmentType).ConfigureAwait(false);
+            return Ok("Appointment type created.");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AppointmentTypeDto>> Get()
+        public async Task<IActionResult> Get()
         {
             var appointmentTypes = await _appointmentTypeRepository.GetAllAsync().ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<AppointmentTypeDto>>(appointmentTypes);
+            return Ok(_mapper.Map<List<AppointmentTypeDto>>(appointmentTypes.ToList()));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(AppointmentType appointmentType)
+        public async Task<IActionResult> Edit(AppointmentTypeDto appointmentTypeDto)
         {
+            var appointmentType = _mapper.Map<AppointmentType>(appointmentTypeDto);
             var validationResult = _validator.Validate(appointmentType);
 
             if (!ModelState.IsValid)
@@ -78,26 +76,27 @@ namespace TherapyAPI.Controllers
                 return BadRequest(string.Join(";", validationErrors));
             }
 
-            _appointmentTypeRepository.Update(appointmentType);
-            return Ok();
+            await _appointmentTypeRepository.Update(appointmentType).ConfigureAwait(false);
+            return Ok("Appointment type updated.");
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid Id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errors);
             }
 
-            var appointmentType = _appointmentTypeRepository.GetById(Id);
+            var appointmentType = await _appointmentTypeRepository.GetById(id).ConfigureAwait(false);
             if (appointmentType == null)
             {
-                return NotFound("Wrong id.");
+                return NotFound($"There was no appointment type with ID {id}.");
             }
 
-            _appointmentTypeRepository.Delete(Id);
-            return Ok("Appointment Type deleted.");
+            await _appointmentTypeRepository.Delete(id).ConfigureAwait(false);
+            return Ok("Appointment type deleted.");
         }
     }
 }
