@@ -1,19 +1,22 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using TherapyAPI.Dto;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TherapyAPI.Models
 {
     public class Billing
     {
+        [Required(ErrorMessage = "Id is required.")]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "An appointment is required.")]
-        public Guid AppointmentId { get; set; }
-        public Appointment Appointment { get; set; }
+        [Required(ErrorMessage = "Appointment is required.")]
+        [ForeignKey("AppointmentId")]
+        public virtual Appointment Appointment { get; set; }
 
         [Required(ErrorMessage = "Price is required.")]
         public decimal Price { get; set; }
-        public bool Discount { get; set; } = false;
+
+        public decimal? OriginalPrice { get; set; }
+        public bool Discounted { get; set; }
     }
 }

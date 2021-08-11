@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TherapyAPI.Entities;
+using TherapyAPI.Context;
 
 namespace TherapyAPI.Migrations
 {
@@ -14,22 +14,25 @@ namespace TherapyAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+                .HasAnnotation("ProductVersion", "5.0.9");
 
             modelBuilder.Entity("TherapyAPI.Models.Appointment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("AppointmentDate");
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("TEXT");
 
-                    b.Property<TimeSpan>("AppointmentTime");
+                    b.Property<Guid>("AppointmentTypeId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<Guid>("AppointmentTypeId");
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ClientId");
-
-                    b.Property<Guid>("TherapistId");
+                    b.Property<Guid>("TherapistId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -45,13 +48,12 @@ namespace TherapyAPI.Migrations
             modelBuilder.Entity("TherapyAPI.Models.AppointmentType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code")
-                        .IsRequired();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -60,56 +62,47 @@ namespace TherapyAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ba1a5585-f976-4016-af8b-000ebfede7bb"),
-                            Code = "FLORAIS",
-                            Name = "Florais"
+                            Id = new Guid("e4df1887-b1ad-4bef-a50d-1287b558fcaf"),
+                            Name = "Flowers"
                         },
                         new
                         {
-                            Id = new Guid("601d8a79-759d-4227-af7c-93165ef10bc5"),
-                            Code = "ACUPUNTURA",
-                            Name = "Acupuntura"
+                            Id = new Guid("a4a7d053-1e39-485a-8c42-08a48e07a08d"),
+                            Name = "Acupuncture"
                         },
                         new
                         {
-                            Id = new Guid("ba8629cb-0c4d-4143-9380-04387883a6e3"),
-                            Code = "CROMOTERAPIA",
-                            Name = "Cromoterapia"
+                            Id = new Guid("5e7ba4ba-0440-4eac-9653-1cc17eae8c33"),
+                            Name = "Chromotherapy"
                         },
                         new
                         {
-                            Id = new Guid("6b0a9cf8-3ada-4b5b-b66b-c042ecbde5c2"),
-                            Code = "MASSAGEM",
-                            Name = "Massagem"
+                            Id = new Guid("dbb2dd20-f080-43e4-a28d-9dad56b04271"),
+                            Name = "Massage"
                         },
                         new
                         {
-                            Id = new Guid("dd2d567b-0fba-4164-9cd4-d8399763e82c"),
-                            Code = "TERAPIACOMFLORES",
-                            Name = "Terapia Com Flores"
+                            Id = new Guid("512de3b6-596c-4415-bf3e-e4b09edb2aca"),
+                            Name = "Flower Therapy"
                         },
                         new
                         {
-                            Id = new Guid("7fac5816-5eb6-4eb2-990d-62f55ac2f9ae"),
-                            Code = "FITOTERAPIA",
-                            Name = "Fitoterapia"
+                            Id = new Guid("226272a6-b282-4f74-9779-6db3803007d7"),
+                            Name = "Phytotherapy"
                         },
                         new
                         {
-                            Id = new Guid("189097c1-65e3-4079-bc78-45df0e219fb9"),
-                            Code = "REFLEXOLOGIA",
-                            Name = "Reflexologia"
+                            Id = new Guid("b83a9c6f-633c-47de-b340-80872f7c2bba"),
+                            Name = "Reflexology"
                         },
                         new
                         {
-                            Id = new Guid("e25193ca-760c-49d5-8b4e-0c71d90c2fdc"),
-                            Code = "SHIATSU",
+                            Id = new Guid("5edd2d71-6b51-4fd0-bbcf-e09adbf295b3"),
                             Name = "Shiatsu"
                         },
                         new
                         {
-                            Id = new Guid("4a002c74-7f63-48bf-9883-4a6d78b353ef"),
-                            Code = "REIKI",
+                            Id = new Guid("e4140197-ad6a-485a-bb57-4977f042e8cb"),
                             Name = "Reiki"
                         });
                 });
@@ -117,13 +110,20 @@ namespace TherapyAPI.Migrations
             modelBuilder.Entity("TherapyAPI.Models.Billing", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.Property<Guid>("AppointmentId");
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<bool>("Discount");
+                    b.Property<bool>("Discounted")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal?>("OriginalPrice")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -132,65 +132,150 @@ namespace TherapyAPI.Migrations
                     b.ToTable("Billings");
                 });
 
-            modelBuilder.Entity("TherapyAPI.Models.Client", b =>
+            modelBuilder.Entity("TherapyAPI.Models.CivilStatus", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<char>("CivilStatus");
-
-                    b.Property<DateTime>("DateOfBirth");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<char>("Gender");
-
-                    b.Property<string>("MobileNumber")
-                        .HasMaxLength(9);
-
-                    b.Property<string>("NIF")
-                        .HasMaxLength(9);
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Observations");
-
-                    b.Property<string>("Occupation");
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.ToTable("CivilStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7d3aa6a1-4b0e-4482-81a5-58b35b5fce79"),
+                            Name = "Married"
+                        },
+                        new
+                        {
+                            Id = new Guid("19d4fe96-4820-4d9a-bbde-fd52b0c1f4ca"),
+                            Name = "Divorced"
+                        },
+                        new
+                        {
+                            Id = new Guid("250b0350-1f54-4fa8-ba2f-f0f2148fe611"),
+                            Name = "Single"
+                        });
+                });
+
+            modelBuilder.Entity("TherapyAPI.Models.Client", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CivilStatusId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("GenderId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MobileNumber")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NIF")
+                        .HasMaxLength(9)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Observations")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Occupation")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CivilStatusId");
+
+                    b.HasIndex("GenderId");
+
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("TherapyAPI.Models.Gender", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("198a5334-eedb-4a44-85bd-e8f2165ee281"),
+                            Name = "Male"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f52e711-6ee7-4937-86f1-fbd9609f14d2"),
+                            Name = "Female"
+                        });
                 });
 
             modelBuilder.Entity("TherapyAPI.Models.Therapist", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired();
+                        .HasColumnType("TEXT");
 
-                    b.Property<char>("Gender");
+                    b.Property<Guid>("GenderId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("MobileNumber")
-                        .HasMaxLength(9);
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("PasswordHash");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("BLOB");
 
-                    b.Property<byte[]>("PasswordSalt");
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("BLOB");
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GenderId");
 
                     b.ToTable("Therapists");
                 });
@@ -200,17 +285,26 @@ namespace TherapyAPI.Migrations
                     b.HasOne("TherapyAPI.Models.AppointmentType", "AppointmentType")
                         .WithMany()
                         .HasForeignKey("AppointmentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TherapyAPI.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TherapyAPI.Models.Therapist", "Therapist")
                         .WithMany()
                         .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppointmentType");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Therapist");
                 });
 
             modelBuilder.Entity("TherapyAPI.Models.Billing", b =>
@@ -218,7 +312,40 @@ namespace TherapyAPI.Migrations
                     b.HasOne("TherapyAPI.Models.Appointment", "Appointment")
                         .WithMany()
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("TherapyAPI.Models.Client", b =>
+                {
+                    b.HasOne("TherapyAPI.Models.CivilStatus", "CivilStatus")
+                        .WithMany()
+                        .HasForeignKey("CivilStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TherapyAPI.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CivilStatus");
+
+                    b.Navigation("Gender");
+                });
+
+            modelBuilder.Entity("TherapyAPI.Models.Therapist", b =>
+                {
+                    b.HasOne("TherapyAPI.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
                 });
 #pragma warning restore 612, 618
         }

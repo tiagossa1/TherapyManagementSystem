@@ -1,0 +1,62 @@
+2021-08-10 21:44:09.224 +01:00 [INF] Loaded 5 extensions
+2021-08-10 21:44:10.672 +01:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.302\
+2021-08-10 21:44:11.233 +01:00 [INF] Found Visual Studio v15.9.28307.1585 [C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools]
+2021-08-10 21:44:11.238 +01:00 [INF] Found Visual Studio v16.10.31424.327 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Community]
+2021-08-10 21:44:13.891 +01:00 [INF] Initializing upgrade step Select an entrypoint
+2021-08-10 21:44:13.895 +01:00 [INF] Setting entrypoint to only project in solution: E:\DesktopProjects\TherapyManagementSystem\TherapyAPI\TherapyAPI.csproj
+2021-08-10 21:44:14.283 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:44:14.286 +01:00 [INF] Initializing upgrade step Select project to upgrade
+2021-08-10 21:44:14.337 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:44:14.376 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:44:14.397 +01:00 [INF] Initializing upgrade step Back up project
+2021-08-10 21:44:27.726 +01:00 [INF] Applying upgrade step Back up project
+2021-08-10 21:44:31.138 +01:00 [INF] Backing up E:\DesktopProjects\TherapyManagementSystem\TherapyAPI to E:\DesktopProjects\TherapyManagementSystem\TherapyAPI.backup
+2021-08-10 21:44:31.149 +01:00 [WRN] Could not copy file E:\DesktopProjects\TherapyManagementSystem\TherapyAPI\log.txt due to 'The process cannot access the file 'E:\DesktopProjects\TherapyManagementSystem\TherapyAPI\log.txt' because it is being used by another process.'
+2021-08-10 21:44:33.478 +01:00 [INF] Project backed up to E:\DesktopProjects\TherapyManagementSystem\TherapyAPI.backup
+2021-08-10 21:44:33.479 +01:00 [INF] Upgrade step Back up project applied successfully
+2021-08-10 21:44:38.215 +01:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-08-10 21:44:38.219 +01:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-08-10 21:44:39.560 +01:00 [INF] Marking package Microsoft.AspNetCore.Razor.Design for removal because it appears to be a transitive dependency
+2021-08-10 21:44:39.645 +01:00 [INF] Marking package AutoMapper for removal because it appears to be a transitive dependency
+2021-08-10 21:44:41.493 +01:00 [INF] Marking package Microsoft.AspNetCore.App, Version=0.0.0 for removal because it doesn't support the target framework but a newer version (2.2.8) does
+2021-08-10 21:44:41.495 +01:00 [WRN] Package Microsoft.AspNetCore.App needs to be upgraded across major versions (0.0.0 -> 2.2.8) which may introduce breaking changes
+2021-08-10 21:44:42.745 +01:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.2.237901) needs added
+2021-08-10 21:44:42.764 +01:00 [INF] Packages to be removed: Operation { Item = Microsoft.AspNetCore.Razor.Design, Version=2.2.0, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+Operation { Item = AutoMapper, Version=8.0.0, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+Operation { Item = Microsoft.AspNetCore.App, Version=0.0.0, OperationDetails = OperationDetails { Risk = None, Details = System.Collections.Generic.List`1[System.String] } }
+2021-08-10 21:44:42.765 +01:00 [INF] Packages to be added: Operation { Item = Microsoft.AspNetCore.App, Version=2.2.8, OperationDetails = OperationDetails { Risk = Medium, Details = System.Collections.Generic.List`1[System.String] } }
+Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.2.237901, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-08-10 21:44:47.374 +01:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-08-10 21:44:47.380 +01:00 [INF] Removing outdated package reference: Microsoft.AspNetCore.App, Version=0.0.0
+2021-08-10 21:44:47.382 +01:00 [INF] Removing outdated package reference: Microsoft.AspNetCore.Razor.Design, Version=2.2.0
+2021-08-10 21:44:47.382 +01:00 [INF] Removing outdated package reference: AutoMapper, Version=8.0.0
+2021-08-10 21:44:47.383 +01:00 [INF] Adding package reference: Microsoft.AspNetCore.App, Version=2.2.8
+2021-08-10 21:44:47.385 +01:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.2.237901
+2021-08-10 21:44:55.267 +01:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-08-10 21:44:56.840 +01:00 [INF] Initializing upgrade step Update TFM
+2021-08-10 21:44:56.853 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:44:56.855 +01:00 [INF] TFM needs updated to net5.0
+2021-08-10 21:44:58.255 +01:00 [INF] Applying upgrade step Update TFM
+2021-08-10 21:44:58.265 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:45:00.380 +01:00 [INF] Updated TFM to net5.0
+2021-08-10 21:45:00.381 +01:00 [INF] Upgrade step Update TFM applied successfully
+2021-08-10 21:45:03.566 +01:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-08-10 21:45:05.468 +01:00 [INF] Reference to Newtonsoft package (Microsoft.AspNetCore.Mvc.NewtonsoftJson, version 5.0.9) needs added
+2021-08-10 21:45:05.470 +01:00 [INF] Packages to be added: Operation { Item = Microsoft.AspNetCore.Mvc.NewtonsoftJson, Version=5.0.9, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-08-10 21:45:07.175 +01:00 [INF] Applying upgrade step Update NuGet Packages
+2021-08-10 21:45:07.176 +01:00 [INF] Adding package reference: Microsoft.AspNetCore.Mvc.NewtonsoftJson, Version=5.0.9
+2021-08-10 21:45:11.710 +01:00 [INF] Upgrade step Update NuGet Packages applied successfully
+2021-08-10 21:45:12.823 +01:00 [INF] Initializing upgrade step Add template files
+2021-08-10 21:45:12.841 +01:00 [INF] 0 expected template items needed
+2021-08-10 21:45:12.845 +01:00 [INF] Initializing upgrade step Update source code
+2021-08-10 21:45:14.268 +01:00 [INF] Initializing upgrade step Move to next project
+2021-08-10 21:45:16.143 +01:00 [INF] Applying upgrade step Move to next project
+2021-08-10 21:45:16.144 +01:00 [INF] Upgrade step Move to next project applied successfully
+2021-08-10 21:45:19.750 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:45:19.756 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:45:19.766 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:45:19.768 +01:00 [INF] Initializing upgrade step Finalize upgrade
+2021-08-10 21:45:19.773 +01:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-10 21:45:25.638 +01:00 [INF] Applying upgrade step Finalize upgrade
+2021-08-10 21:45:25.640 +01:00 [INF] Upgrade step Finalize upgrade applied successfully
+2021-08-10 21:45:26.831 +01:00 [INF] Upgrade has completed. Please review any changes.
