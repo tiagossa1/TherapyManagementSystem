@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.OpenApi.Models;
 using TherapyAPI.Context;
 using TherapyAPI.Mapper;
@@ -32,7 +33,7 @@ namespace TherapyAPI
 
             services.AddDbContext<RepositoryContext>(options => options.UseSqlite(connection));
 
-            var mappingConfig = new MapperConfiguration(mc => mc.AddProfile(new MapperProfile()));
+            var mappingConfig = new MapperConfiguration(mc => mc.AddProfile(new MapperProfile()), NullLoggerFactory.Instance);
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
